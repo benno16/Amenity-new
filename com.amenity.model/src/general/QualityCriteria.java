@@ -19,16 +19,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum QualityCriteria implements Enumerator {
 	/**
-	 * The '<em><b>Empty</b></em>' literal object.
+	 * The '<em><b>Blank</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #EMPTY_VALUE
+	 * @see #BLANK_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	EMPTY(0, "empty", "empty"),
-
-	/**
+	BLANK(0, "blank", "blank"), /**
 	 * The '<em><b>X</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -49,16 +47,14 @@ public enum QualityCriteria implements Enumerator {
 	I(2, "i", "i"),
 
 	/**
-	 * The '<em><b>NULL</b></em>' literal object.
+	 * The '<em><b>O</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #NULL_VALUE
+	 * @see #O_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NULL(3, "NULL", "0"),
-
-	/**
+	O(3, "O", "O"), /**
 	 * The '<em><b>Na</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,19 +65,19 @@ public enum QualityCriteria implements Enumerator {
 	NA(4, "na", "na");
 
 	/**
-	 * The '<em><b>Empty</b></em>' literal value.
+	 * The '<em><b>Blank</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Empty</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Blank</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #EMPTY
-	 * @model name="empty"
+	 * @see #BLANK
+	 * @model name="blank"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int EMPTY_VALUE = 0;
+	public static final int BLANK_VALUE = 0;
 
 	/**
 	 * The '<em><b>X</b></em>' literal value.
@@ -114,19 +110,19 @@ public enum QualityCriteria implements Enumerator {
 	public static final int I_VALUE = 2;
 
 	/**
-	 * The '<em><b>NULL</b></em>' literal value.
+	 * The '<em><b>O</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>NULL</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>O</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #NULL
-	 * @model literal="0"
+	 * @see #O
+	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NULL_VALUE = 3;
+	public static final int O_VALUE = 3;
 
 	/**
 	 * The '<em><b>Na</b></em>' literal value.
@@ -151,10 +147,10 @@ public enum QualityCriteria implements Enumerator {
 	 */
 	private static final QualityCriteria[] VALUES_ARRAY =
 		new QualityCriteria[] {
-			EMPTY,
+			BLANK,
 			X,
 			I,
-			NULL,
+			O,
 			NA,
 		};
 
@@ -206,10 +202,10 @@ public enum QualityCriteria implements Enumerator {
 	 */
 	public static QualityCriteria get(int value) {
 		switch (value) {
-			case EMPTY_VALUE: return EMPTY;
+			case BLANK_VALUE: return BLANK;
 			case X_VALUE: return X;
 			case I_VALUE: return I;
-			case NULL_VALUE: return NULL;
+			case O_VALUE: return O;
 			case NA_VALUE: return NA;
 		}
 		return null;

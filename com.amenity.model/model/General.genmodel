@@ -18,10 +18,10 @@
       <genEnumLiterals ecoreEnumLiteral="General.ecore#//ConnectionType/SYNERGY"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//QualityCriteria">
-      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/empty"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/blank"/>
       <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/x"/>
       <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/i"/>
-      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/NULL"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/O"/>
       <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/na"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//documentType">

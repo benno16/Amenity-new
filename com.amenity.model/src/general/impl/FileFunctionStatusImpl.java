@@ -103,7 +103,7 @@ public class FileFunctionStatusImpl extends EObjectImpl implements FileFunctionS
 	 * @generated
 	 * @ordered
 	 */
-	protected static final QualityCriteria UP_TO_DATE_EDEFAULT = QualityCriteria.EMPTY;
+	protected static final QualityCriteria UP_TO_DATE_EDEFAULT = QualityCriteria.BLANK;
 
 	/**
 	 * The cached value of the '{@link #getUpToDate() <em>Up To Date</em>}' attribute.
@@ -123,7 +123,7 @@ public class FileFunctionStatusImpl extends EObjectImpl implements FileFunctionS
 	 * @generated
 	 * @ordered
 	 */
-	protected static final QualityCriteria REVIEWED_EDEFAULT = QualityCriteria.EMPTY;
+	protected static final QualityCriteria REVIEWED_EDEFAULT = QualityCriteria.BLANK;
 
 	/**
 	 * The cached value of the '{@link #getReviewed() <em>Reviewed</em>}' attribute.
@@ -143,7 +143,7 @@ public class FileFunctionStatusImpl extends EObjectImpl implements FileFunctionS
 	 * @generated
 	 * @ordered
 	 */
-	protected static final QualityCriteria CONFIGURATION_MANAGEMENT_EDEFAULT = QualityCriteria.EMPTY;
+	protected static final QualityCriteria CONFIGURATION_MANAGEMENT_EDEFAULT = QualityCriteria.BLANK;
 
 	/**
 	 * The cached value of the '{@link #getConfigurationManagement() <em>Configuration Management</em>}' attribute.
@@ -163,7 +163,7 @@ public class FileFunctionStatusImpl extends EObjectImpl implements FileFunctionS
 	 * @generated
 	 * @ordered
 	 */
-	protected static final QualityCriteria RATING_EDEFAULT = QualityCriteria.EMPTY;
+	protected static final QualityCriteria RATING_EDEFAULT = QualityCriteria.BLANK;
 
 	/**
 	 * The cached value of the '{@link #getRating() <em>Rating</em>}' attribute.

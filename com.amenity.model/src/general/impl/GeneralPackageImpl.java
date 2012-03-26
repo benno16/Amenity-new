@@ -1803,10 +1803,10 @@ public class GeneralPackageImpl extends EPackageImpl implements GeneralPackage {
 		addEEnumLiteral(connectionTypeEEnum, ConnectionType.SYNERGY);
 
 		initEEnum(qualityCriteriaEEnum, QualityCriteria.class, "QualityCriteria");
-		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.EMPTY);
+		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.BLANK);
 		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.X);
 		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.I);
-		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.NULL);
+		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.O);
 		addEEnumLiteral(qualityCriteriaEEnum, QualityCriteria.NA);
 
 		initEEnum(documentTypeEEnum, documentType.class, "documentType");

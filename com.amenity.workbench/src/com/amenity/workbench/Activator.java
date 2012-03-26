@@ -93,7 +93,9 @@ public class Activator extends AbstractUIPlugin {
 
 	private void clearTempFolder() {
 		try {
-			String amo = "cmd /C del /Q /F \"D:\\temp\\amenity\\*.*\"";
+
+			String amo = "cmd /C del /Q /F \" "+ System.getenv("temp") + "\\amenity\\*.*\"";
+			
 			Runtime r = Runtime.getRuntime();
 			Process p = r.exec(amo);
 			try {

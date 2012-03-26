@@ -27,19 +27,22 @@ public class MksGetFile {
 	private Session mySession = null;
 	private File file = null;
 	private String fileName;
-	private String amenityTempFolder = "D:\\temp\\amenity\\";
+	private String amenityTempFolder;
 	
 	@SuppressWarnings("unused")
 	private MksGetFile () {
 	}
 	
 	public MksGetFile ( Connection connection, File file ) {
+		
+		amenityTempFolder = System.getenv("temp") + "\\amenity\\";
 		this.connection = connection;
 		this.file = file;
 	}
 
 	public MksGetFile ( Connection connection1, File file1, 
 			Connection connection2, File file2) throws IOException {
+		amenityTempFolder = System.getenv("temp") + "\\amenity\\";
 		this.connection = connection1;
 		this.file = file1;
 		String fileName1 = openFile().substring(9);

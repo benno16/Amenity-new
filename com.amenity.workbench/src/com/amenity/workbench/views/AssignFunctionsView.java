@@ -171,6 +171,7 @@ public class AssignFunctionsView extends ViewPart {
 		containerCombo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
+				// refresh container list on selection
 				containerComboViewer.setInput(AssignFunctionViewMethods.getInstance().getContainerList(SessionSourceProvider.USER) );
 			}
 		});
@@ -203,7 +204,9 @@ public class AssignFunctionsView extends ViewPart {
 		        		
 		        		SessionSourceProvider.CURRENT_CONTAINER = 
 		        				(Container) structuredSelection.getFirstElement();
+		        		// clear everything
 		        		clearSnapshotTree();
+		        		// get container list and refresh
 		        		snapshotComboViewer.setInput( AssignFunctionViewMethods.getInstance()
 		        			.getSnapshots(SessionSourceProvider.CURRENT_CONTAINER) );
 		        		snapshotComboViewer.refresh();
@@ -246,10 +249,11 @@ public class AssignFunctionsView extends ViewPart {
 		        if ( !structuredSelection.isEmpty() ) {
 		        	
 		        	if ( structuredSelection.getFirstElement() instanceof Snapshot ) {
-		        		
+		        		// set global variable
 		        		SessionSourceProvider.CURRENT_SNAPSHOT = 
 		        				(Snapshot) structuredSelection.getFirstElement();
 		        		
+		        		// reads functions and fills snapshot tree
 		        		initializeSnapshotTree();
 		        		
 		        	}
@@ -297,52 +301,31 @@ public class AssignFunctionsView extends ViewPart {
 				objectSelection = event.getSelection();
 				structuredSelection = (IStructuredSelection) objectSelection;
 				
-				// may require not null check
-				if ( CURRENT_FUNCTION_FILE_LIST != null && 
-						!ORIGINAL_FUNCTION_FILE_LIST.containsAll(CURRENT_FUNCTION_FILE_LIST) ) {
-					MessageDialog.openWarning(composite.getShell(), "Warning", 
-							"You have to apply the changes");
-				} else {
-					
-					// check if list is not empty
-					if ( !structuredSelection.isEmpty()) {
+				if ( !structuredSelection.isEmpty()) {
 						
-						// ensure element is of correct instance
-						if ( structuredSelection.getFirstElement() instanceof Function) {
-							
-							// if a new element is selected clear list and repaint the tree
-//							if ( SessionSourceProvider.CURRENT_FUNCTION == null || 
-//									!SessionSourceProvider.CURRENT_FUNCTION.equals((Function) 
-//									structuredSelection.getFirstElement()) ) {
-//							if ( SessionSourceProvider.CURRENT_FUNCTION == null ) {
-								// clear everything
-								clearFunctionTree();
+					if ( structuredSelection.getFirstElement() instanceof Function) {
+						
+						// empty function tree
+						clearFunctionTree();
 								
-								// start rebuilding here
-								// set selected function
-								SessionSourceProvider.CURRENT_FUNCTION = (Function) 
-										structuredSelection.getFirstElement();
+						// start rebuilding here
+						// set selected function
+						SessionSourceProvider.CURRENT_FUNCTION = (Function) 
+								structuredSelection.getFirstElement();
+						
+						// Add the static existent file function status objects to Table
+						tableViewer.setInput(AssignFunctionViewMethods.getInstance()
+								.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION) );
 								
-								// Add the static existent file function status objects to Table
-								CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods.getInstance()
-										.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION);
-								ORIGINAL_FUNCTION_FILE_STATUS_LIST = CURRENT_FUNCTION_FILE_STATUS_LIST;
-								tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
-								
-								// set additional labels
-								functionNameText.setText(SessionSourceProvider.CURRENT_FUNCTION.getName());
-								lblDate.setText(SessionSourceProvider.CURRENT_FUNCTION.getModified().toString());
-								
-								
-								// iterate through CURRENT_FILE_LIST_WITH_FUNCTION
-								CURRENT_FUNCTION_FILE_LIST = AssignFunctionViewMethods.getInstance()
-										.getContentObjectsWithFunction( CURRENT_FILE_LIST_WITH_FUNCTION );
-								ORIGINAL_FUNCTION_FILE_LIST = CURRENT_FUNCTION_FILE_LIST;
-
-								functionTreeViewer.setInput( CURRENT_FUNCTION_FILE_LIST );
-								
-//							}
-						}
+						// set additional labels
+						functionNameText.setText(SessionSourceProvider.CURRENT_FUNCTION.getName());
+						lblDate.setText(SessionSourceProvider.CURRENT_FUNCTION.getModified().toString());
+						
+						
+						// get all content objects part of this function
+						functionTreeViewer.setInput( CURRENT_FUNCTION_FILE_LIST = AssignFunctionViewMethods.getInstance()
+								.getContentObjectsWithFunction( SessionSourceProvider.CURRENT_FUNCTION ) );
+						
 					}
 				}
 			}
@@ -392,6 +375,9 @@ public class AssignFunctionsView extends ViewPart {
 		
 		lblDeleteffs = new Label(parent, SWT.NONE);
 		// reviewed 14.03.2012
+		/*
+		 * TODO: übersprungen
+		 */
 		lblDeleteffs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -504,7 +490,7 @@ public class AssignFunctionsView extends ViewPart {
 				
 				return AssignFunctionViewMethods.getInstance()
 						.getFolderChildren( (Folder)parentElement , 
-								CURRENT_FILE_LIST ).toArray();
+								SessionSourceProvider.CURRENT_SNAPSHOT ).toArray();
 				
 			}
 
@@ -574,6 +560,7 @@ public class AssignFunctionsView extends ViewPart {
 		});
 		/*
 		 * Review to be checked 14.03.
+		 * TODO: übersprungen
 		 */
 		snapshotTreeViewer.addDropSupport(operations, transfers2, new ViewerDropAdapter ( snapshotTreeViewer ) {
 			
@@ -740,8 +727,8 @@ public class AssignFunctionsView extends ViewPart {
 			public Object[] getChildren(Object parentElement) {
 
 				return AssignFunctionViewMethods.getInstance()
-						.getFolderChildren( (Folder)parentElement , 
-								CURRENT_FILE_LIST ).toArray();
+						.getFolderChildren( (Folder)parentElement, 
+								SessionSourceProvider.CURRENT_SNAPSHOT ).toArray();
 				
 			}
 
@@ -1013,6 +1000,8 @@ public class AssignFunctionsView extends ViewPart {
 						listDialog.setContentProvider(ArrayContentProvider.getInstance());
 						listDialog.setLabelProvider(new GenericNameLabelProvider());
 						SnapshotDao sDao = DaoFactory.eINSTANCE.createSnapshotDao();
+						
+						// list every snapshot that has one or more functions assigned within the same container
 						listDialog.setInput(
 								sDao.getSnapshotsWithFunction(
 										SessionSourceProvider.CURRENT_CONTAINER) );
@@ -1125,7 +1114,9 @@ public class AssignFunctionsView extends ViewPart {
 		// delete all the old content and lists
 		clearSnapshotTree();
 
+		// this one also adds the colors for used and dummy objects
 		snapshotTreeViewer.setLabelProvider(new SnapshotStyledLabelProvder ());
+		
 		// get snapshot functions and add to combo and List
 		CURRENT_FUNCTION_LIST = AssignFunctionViewMethods.getInstance()
 			.getFunctions(SessionSourceProvider.CURRENT_SNAPSHOT);
@@ -1134,11 +1125,10 @@ public class AssignFunctionsView extends ViewPart {
 		
 		functionComboViewer.setInput(CURRENT_FUNCTION_LIST);
 		functionComboViewer.refresh();
-		
+
+		// now get all the file and folder information
 		CURRENT_FILE_LIST = AssignFunctionViewMethods.getInstance()
 				.getContentObjects(SessionSourceProvider.CURRENT_SNAPSHOT);
-		CURRENT_FILE_LIST_WITH_FUNCTION = AssignFunctionViewMethods.getInstance()
-				.getContentObjectsFunctions(CURRENT_FILE_LIST);
 		
 		snapshotTreeViewer.setInput(AssignFunctionViewMethods.getInstance()
 				.getRootFolder(CURRENT_FILE_LIST));
@@ -1205,7 +1195,7 @@ public class AssignFunctionsView extends ViewPart {
 		}
 		// if its a folder fetch children and perform same operation
 		if ( co instanceof Folder ) {
-			java.util.List<ContentObject> coList = AssignFunctionViewMethods.getInstance().getFolderChildren( (Folder)co , CURRENT_FILE_LIST );
+			java.util.List<ContentObject> coList = AssignFunctionViewMethods.getInstance().getFolderChildren( (Folder)co , SessionSourceProvider.CURRENT_SNAPSHOT );
 			for ( ContentObject subCo : coList ) {
 				storeFunctionInfoInFile(subCo);
 			}

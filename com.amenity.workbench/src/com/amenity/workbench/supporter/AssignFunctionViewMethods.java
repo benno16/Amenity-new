@@ -143,6 +143,47 @@ public class AssignFunctionViewMethods {
 		return ffsDao.getFileFunctionStatusByFunction(function);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<ContentObject> getContentObjectsWithFunction ( Function function ) {
+		
+		List<ContentObject> contentObjects; // = new ArrayList<ContentObject>();
+		List<ContentObject> contentObjectsWithFunction = new ArrayList<ContentObject>();
+		GenericDao gDao = DaoFactory.eINSTANCE.createGenericDao();
+		Session session = gDao.getSession();
+		session.beginTransaction();
+		
+
+//		select * from 
+//			( "contentobject" co inner join "contentobject_function" cf 
+//				on co."objectid" = cf."contentobject_objectid") 
+//				inner join "function" f 
+//				on f."functionid" = cf."function_functionid"
+//				where f."functionid" = 'bf46dd71-4f87-4d9b-8e96-4a5b97a9f024'
+		
+//		contentObjectsWithFunction = (List<ContentObject>) session.createSQLQuery("select * from ( \"contentobject\" co inner join \"contentobject_function\" cf " +
+//				"on co.\"objectid\" = cf.\"contentobject_objectid\" ) " +
+//				"inner join \"function\" f " +
+//				"on f.\"functionid\" = cf.\"function_functionid\" " + 
+//				"where f.\"functionid\" = '" + SessionSourceProvider.CURRENT_FUNCTION.getFunctionId() + "'" ).list();
+		
+		contentObjects = (List<ContentObject>) session.createQuery(
+				"from ContentObject contentobject where contentobject.partOf = :s")
+				.setParameter("s", SessionSourceProvider.CURRENT_SNAPSHOT)
+				.list();
+
+		for ( ContentObject co : contentObjects ) {
+			if ( co.getFunction() != null && co.getFunction().size() > 0 ) {
+				for ( Function f : co.getFunction() ) {
+					if ( f != null && f.getFunctionId().equals(function.getFunctionId())) 
+						contentObjectsWithFunction.add(co);
+				}
+			}
+		}
+		
+		session.close();
+		return contentObjectsWithFunction;
+	}
+	
 	public List<ContentObject> getContentObjectsWithFunction ( 
 			List<ContentObject> FullcontentObjectsWithFunction ) {
 		
@@ -188,32 +229,13 @@ public class AssignFunctionViewMethods {
 		return function;
 	}
 	
-	public List<ContentObject> getFolderChildren ( Folder folder, List<ContentObject> coList ) {
+	@SuppressWarnings("unchecked")
+	public List<ContentObject> getFolderChildren ( Folder folder, Snapshot snapshot ) {
 		
-		java.util.List<ContentObject> children = new ArrayList<ContentObject>();
+		ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
 		
-		for ( ContentObject co : coList ) {
-			
-			if ( co instanceof Folder ) {
-				
-				if (((Folder)co).getRootDirectory() != null )
-					
-					if (((Folder) co).getRootDirectory().equals(folder))
-						
-						children.add(co);
-				
-			} else 
-				if ( co instanceof File ) {
-				
-					if ( ((File) co).getRootDir().equals(folder) )
-						
-						children.add(co);
-				
-			}
-			
-		}
-		
-		return children;
+		System.out.println("get children");
+		return coDao.getChildren(folder, snapshot);
 	}
 	
 	public List<ContentObject> addFunctionToContentObject ( List<ContentObject> contentObjects, Function function, ContentObject co ) {
@@ -352,7 +374,7 @@ public class AssignFunctionViewMethods {
 		SnapshotComparator compare = new SnapshotComparator( (List<ContentObject>) gDao.getByQuery(query1), 
 	    		(List<ContentObject>) gDao.getByQuery(query2));
 	    
-		// now I have the list containing both
+		// now I have the list containing both snapshot's file and folder objects
 		List<CompareViewObject> compareViewObjects = compare.createCompareViewObjects();
 	    
 	    Session session = gDao.getSession();
@@ -508,7 +530,7 @@ public class AssignFunctionViewMethods {
 	    			session.merge(dummyFile);
 	    			returnObjects.add(dummyFile);
 	    			
-	    		} 
+	    		}
 	    		else if ( cvo.getFolder1() == null && cvo.getFolder2() != null ) {
 
 	    			cvo.setFolder2( (Folder)getContentObject(session, cvo.getFolder2()) );

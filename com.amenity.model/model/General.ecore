@@ -243,10 +243,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//documentType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="QualityCriteria">
-    <eLiterals name="empty" literal="empty"/>
+    <eLiterals name="blank" literal="blank"/>
     <eLiterals name="x" value="1" literal="x"/>
     <eLiterals name="i" value="2" literal="i"/>
-    <eLiterals name="NULL" value="3" literal="0"/>
+    <eLiterals name="O" value="3" literal="O"/>
     <eLiterals name="na" value="4" literal="na"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Image" instanceClassName="org.eclipse.swt.graphics.Image"/>
