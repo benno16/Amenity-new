@@ -24,13 +24,15 @@ update "function" set "name" = 'fn1'
 
 select * from "function"
 
+select * from "container" where "user_owner_userid" is null
+
 delete from "function" where "snapshot_snapshot_snapshotid" = '2def6ff4-d185-40c6-807e-45718583f13a'
 
 delete from "function" where "E_VERSION" = '0'
 
 select count(*) from "filefunctionstatus" where 
 	"function_offunction_functionid" = '6c90188d-64b2-4729-bda9-b9c4d7e0b7ed'
-
+delete from "filefunctionstatus"
 select * from "connection"
 select * from "container"
 insert into "filefunctionstatus" ( "filefunctionstatusid", "function_offunction_functionid", 

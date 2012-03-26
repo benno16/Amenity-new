@@ -86,7 +86,7 @@ public class ContainerDaoImpl extends GenericDaoImpl implements ContainerDao {
 			User u = (User) user;
 			
 			session.createQuery("update " + Container.class.getName().toString()+ 
-					" set owner = '" + u.getUserId()  + "'").executeUpdate() ;
+					" set owner = '" + u.getUserId()  + "' where owner is null").executeUpdate() ;
 			
 			session.getTransaction().commit();
 			session.close();
