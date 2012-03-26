@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.amenity.model/src" editDirectory="/com.amenity.model.edit/src"
+    editorDirectory="/com.amenity.model.editor/src" modelPluginID="com.amenity.model"
+    modelName="General" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" editPluginID="com.amenity.model.edit" runtimeVersion="2.8"
+    runtimePlatform="RCP">
+  <foreignModel>General.ecore</foreignModel>
+  <genPackages prefix="General" disposableProviderFactory="true" ecorePackage="General.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//EventType">
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//EventType/Error"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//EventType/Information"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//EventType/Warning"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//ConnectionType">
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//ConnectionType/MKS"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//ConnectionType/MKS_SANDBOX"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//ConnectionType/SYNERGY"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//QualityCriteria">
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/empty"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/x"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/i"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/NULL"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//QualityCriteria/na"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//documentType">
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Project_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Metrics"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Project_Schedule"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Project_Risk_List"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Lessons_Learned_"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Release_Note"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Requirements"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/HWSW_Interface_Sheet"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Configuration_Management_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Change_Management_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Change_Management_Report"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Architecture"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Project_LINT_Report"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Software_Test_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Software_Integration_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Test_Summary_Report_"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Software_Quality_Assurance_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Software_Quality_Assurance_Report"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SC_PDP"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/System_Configuration_Management_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Change_Management_with_MKS_yn"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/System_Test_Specification_in_DOORS"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Test_Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/System_Integration_Test_Specification"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Customer_Requirements_Specification"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/System_Requirements_Specification"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Requirements_Engineering_with_DOORS_yn"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Bidirectional_traceability_System_Requ_System_TC"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/System_Architecture_Document_"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Generic_Function__SRS"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SDD"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/MISRA__LintCodeCheck_CheckList"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Model_Review"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Unit_Test_Specification_"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Integration_Test_Specification_"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Requirements_Test_Specification"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Integration_Test_Report"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Requirements_Test_Report"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/SW_Unit_test_Report"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Additional"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//documentType/Additional2"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="General.ecore#//Milestone">
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G30"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G40"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/A_SAMPLE"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/B_SAMPLE"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/C_SAMPLE"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G50"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G55"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G60"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G70"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G80"/>
+      <genEnumLiterals ecoreEnumLiteral="General.ecore#//Milestone/G90"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="General.ecore#//Date"/>
+    <genDataTypes ecoreDataType="General.ecore#//Image"/>
+    <genClasses ecoreClass="General.ecore#//User">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/userId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/username"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/email"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/lastUsed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/timesUsed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//User/deleted"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Event">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Event/eventId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Event/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Event/date"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Event/userRelevant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Event/user"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Event/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Event/source"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//DataSource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/dataSourceId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/addInfo1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/addInfo2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//DataSource/addInfo3"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//DataSource/setting"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Connection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/connectionId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/username"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/connectionType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/database"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/project"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/release"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/addInfo1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/addInfo2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/addInfo3"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/addInfo4"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Connection/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/lastUsed"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Connection/partOf"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Connection/deleted"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Container">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/containerId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/addInfo1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/addInfo2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/addInfo3"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Container/owner"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/deleted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Container/ownerId"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Snapshot">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Snapshot/snapshotId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Snapshot/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Snapshot/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Snapshot/comment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Snapshot/deleted"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Snapshot/via"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//ContentObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/objectId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/level"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/release"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/modfiedDate"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//ContentObject/partOf"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/fullName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//ContentObject/function"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//ContentObject/dummy"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//File">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//File/objectName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//File/creationDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//File/status"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//File/rootDir"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//File/suffix"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Folder">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Folder/rootDirectory"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//FileType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileType/fileTypeId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileType/icon"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileType/suffix"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Function">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Function/functionId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Function/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Function/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Function/overallStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Function/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Function/deleted"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Function/snapshot"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//FileFunctionStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/fileFunctionStatusId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/required"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/upToDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/reviewed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/configurationManagement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/rating"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/comment"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//FileFunctionStatus/ofFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//FileFunctionStatus/ofFunction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/setOn"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//FileFunctionStatus/type"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//UserList">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//UserList/Users"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//Task">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Task/taskId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Task/finished"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Task/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//Task/created"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//Task/owner"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//SessionSatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//SessionSatus/mksStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//SessionSatus/dbStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//SessionSatus/synergySession"/>
+    </genClasses>
+    <genClasses ecoreClass="General.ecore#//CheckInMilestone">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//CheckInMilestone/checkInMilestoneId"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//CheckInMilestone/container"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference General.ecore#//CheckInMilestone/fileStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute General.ecore#//CheckInMilestone/milestone"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

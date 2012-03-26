@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dbserver
+Bundle-SymbolicName: com.amenity.dbserver;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.amenity.dbserver.Activator
+Bundle-Vendor: AMENITY
+Require-Bundle: org.eclipse.core.runtime,
+ com.amenity.framework;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j;version="1.2.13"

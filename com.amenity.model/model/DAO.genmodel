@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.amenity.model/src" modelPluginID="com.amenity.model"
+    modelName="DAO" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" runtimePlatform="RCP">
+  <foreignModel>DAO.ecore</foreignModel>
+  <genPackages prefix="Dao" disposableProviderFactory="true" ecorePackage="DAO.ecore#/">
+    <genDataTypes ecoreDataType="DAO.ecore#//List"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//Query"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//Session"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//SessionFactory"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//User"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//Container"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//Snapshot"/>
+    <genDataTypes ecoreDataType="DAO.ecore#//Folder"/>
+    <genClasses ecoreClass="DAO.ecore#//GenericDao">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DAO.ecore#//GenericDao/persistentClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DAO.ecore#//GenericDao/session"/>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/create">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/create/object"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/read">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/read/class"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/update">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/update/object"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/delete">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/delete/object"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/getByQuery">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/getByQuery/query"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/getById">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/getById/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/getList">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/getList/class"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/getListByOwner">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/getListByOwner/class"/>
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/getListByOwner/user"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//GenericDao/massInsert">
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/massInsert/list"/>
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/massInsert/class"/>
+        <genParameters ecoreParameter="DAO.ecore#//GenericDao/massInsert/object"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//HibernateUtil">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DAO.ecore#//HibernateUtil/sessionFactory"/>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//UserDao">
+      <genOperations ecoreOperation="DAO.ecore#//UserDao/findByUsername">
+        <genParameters ecoreParameter="DAO.ecore#//UserDao/findByUsername/user"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//EventDao"/>
+    <genClasses ecoreClass="DAO.ecore#//GeneralQueries">
+      <genOperations ecoreOperation="DAO.ecore#//GeneralQueries/dbAlive"/>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//ContainerDao">
+      <genOperations ecoreOperation="DAO.ecore#//ContainerDao/setOwner">
+        <genParameters ecoreParameter="DAO.ecore#//ContainerDao/setOwner/user"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//ConnectionDao">
+      <genOperations ecoreOperation="DAO.ecore#//ConnectionDao/findMksPassword">
+        <genParameters ecoreParameter="DAO.ecore#//ConnectionDao/findMksPassword/user"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ConnectionDao/getListByContainer">
+        <genParameters ecoreParameter="DAO.ecore#//ConnectionDao/getListByContainer/container"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//FolderDao">
+      <genOperations ecoreOperation="DAO.ecore#//FolderDao/getRootFolderBySnapshot">
+        <genParameters ecoreParameter="DAO.ecore#//FolderDao/getRootFolderBySnapshot/snapshot"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//FileDao"/>
+    <genClasses ecoreClass="DAO.ecore#//SnapshotDao">
+      <genOperations ecoreOperation="DAO.ecore#//SnapshotDao/getListByContainer">
+        <genParameters ecoreParameter="DAO.ecore#//SnapshotDao/getListByContainer/containerId"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//SnapshotDao/getSnapshotsWithFunction">
+        <genParameters ecoreParameter="DAO.ecore#//SnapshotDao/getSnapshotsWithFunction/containerId"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//ContentObjectDao">
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/getListBySnapshot">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/getListBySnapshot/snapshot"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/deleteListBySnapshot">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/deleteListBySnapshot/snapshot"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/getChildren">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/getChildren/parent"/>
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/getChildren/snapshot"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/addFunctionToCo">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/addFunctionToCo/function"/>
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/addFunctionToCo/contentObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/getObjectsOfFunction">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/getObjectsOfFunction/function"/>
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/getObjectsOfFunction/snapshot"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/deleteFunctionFromCo">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/deleteFunctionFromCo/function"/>
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/deleteFunctionFromCo/contentObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//ContentObjectDao/deleteDummyObjects">
+        <genParameters ecoreParameter="DAO.ecore#//ContentObjectDao/deleteDummyObjects/snapshot"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//FunctionDao">
+      <genOperations ecoreOperation="DAO.ecore#//FunctionDao/getFunctionsBySnapshot">
+        <genParameters ecoreParameter="DAO.ecore#//FunctionDao/getFunctionsBySnapshot/snapshot"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//FunctionDao/emtpyFunction">
+        <genParameters ecoreParameter="DAO.ecore#//FunctionDao/emtpyFunction/function"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//FunctionDao/getById">
+        <genParameters ecoreParameter="DAO.ecore#//FunctionDao/getById/id"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="DAO.ecore#//FileFunctionStatusDao">
+      <genOperations ecoreOperation="DAO.ecore#//FileFunctionStatusDao/getFileFunctionStatusBySnapshot">
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/getFileFunctionStatusBySnapshot/snapshot"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//FileFunctionStatusDao/getFileFunctionStatusByFunction">
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/getFileFunctionStatusByFunction/function"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//FileFunctionStatusDao/getById">
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/getById/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//FileFunctionStatusDao/createFfsWithFunctionIdObjectId">
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/createFfsWithFunctionIdObjectId/file"/>
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/createFfsWithFunctionIdObjectId/function"/>
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/createFfsWithFunctionIdObjectId/fileFunctionStatus"/>
+      </genOperations>
+      <genOperations ecoreOperation="DAO.ecore#//FileFunctionStatusDao/setFFSType">
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/setFFSType/fileFunctionStatus"/>
+        <genParameters ecoreParameter="DAO.ecore#//FileFunctionStatusDao/setFFSType/enumValue"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

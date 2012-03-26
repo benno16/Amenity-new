@@ -1,0 +1,89 @@
+select * from "user"
+delete from "user" where "username" = 'Ben'
+update "user" set "username" ='Ben'
+select * from "contentobject" where "PARTOF" = '012c9c20-f2a0-4b87-89ec-2fdddcdeaafa' order by "level" and "name" = 'algo2.txt'
+
+update "contentobject" set "modfieddate" = now() where "PARTOF" = '012c9c20-f2a0-4b87-89ec-2fdddcdeaafa' and "name" = 'algo2.txt'
+
+select * from "snapshot"
+delete from "container" where "deleted" = 1
+
+delete from "snapshot" where "name" != 't99'
+   
+select * from "contentobject" where "folder_rootdir_objectid" is null 
+and "folder_rootdirectory_objectid" is null
+delete from "contentobject" where "name" = 'test'
+
+select * from "contentobject_function" where "function_functionid" = '9a6c4c96-1b0b-4d59-9178-172db79d9733'
+
+select * from "function"
+
+drop schema "PUBLIC" cascade
+
+update "function" set "name" = 'fn1'
+
+select * from "function"
+
+delete from "function" where "snapshot_snapshot_snapshotid" = '2def6ff4-d185-40c6-807e-45718583f13a'
+
+delete from "function" where "E_VERSION" = '0'
+
+select count(*) from "filefunctionstatus" where 
+	"function_offunction_functionid" = '6c90188d-64b2-4729-bda9-b9c4d7e0b7ed'
+
+select * from "connection"
+select * from "container"
+insert into "filefunctionstatus" ( "filefunctionstatusid", "function_offunction_functionid", 
+	"file_offile_objectid", "dtype", "E_VERSION" ) values 
+	'029c36a8-783a-4854-bcff-2037071d2578', '856d99f5-1b0a-410a-b0c6-b905df94e22c', 
+	'04fa4838-2c3e-4043-8c83-58c60e3ebb83', 'FileFunctionStatusId', '0'
+
+update "connection" set "container_partof_containerid" = '4a797330-192f-4adb-a1ca-ebaa789e124a'
+where "connectionid" = '029c36a8-783a-4854-bcff-2037071d2522'
+
+select * from "connection"
+
+select * from "snapshot" where "deleted" = false
+select * from "snapshot" s 
+	inner join "connection" c on s."connection_via_connectionid" = c."connectionid"
+	where c."container_partof_containerid" = 'c0eb818d-f530-43e9-b309-8ef1b7c81868'
+	
+select * FROM "contentobject_function"
+
+select * from "function"
+
+delete FROM "contentobject_function"
+
+select distinct * from "contentobject_function"
+select * from "contentobject_function"
+
+drop table "user"
+
+
+select * from "snapshot"
+delete from "contentobject" where "objectid" = '05aa5674-492e-4f12-875c-2f18b5902c2b'
+update "contentobject" set "modfieddate" = now() 
+delete from "contentobject" where "name" = 'test.txt' 
+and "snapshot_partof_snapshotid" = '7b6d4a8a-7006-4abd-99ba-976ed7b936d2'
+select * from "contentobject" where "snapshot_partof_snapshotid" = 'db981a97-0330-4086-b3b8-5bc6d71a8092'
+
+
+
+
+select * from "container"
+u where u."username"='uidu1448'
+update "container" set "user_owner_userid" = '32f5c2fb-4598-4092-9290-55d1e96d80ea'
+select * from "user"
+select * from "connection"
+update "connection" set "connectiontype" = 'SYNERGY' where "connectiontype" = 'synergy'
+
+update "container" set "user_owner_userid" = 'a29f2260-a8fa-4521-a801-8fee39413c40'
+
+insert into "event" values( (select count(*) from "event")+1,'Event',
+'0','msg',now(),'0','a29f2260-a8fa-4521-a801-8fee39413c40','INFO');
+
+select * from "filefunctionstatus"
+delete from "filefunctionstatus" where "function_offunction_functionid" is null
+
+select * from "event"
+

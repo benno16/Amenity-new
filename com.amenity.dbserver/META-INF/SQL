@@ -1,0 +1,42 @@
+
+select "password" from "connection" c1, "container" c2 where c2."ownerid" = 'd58ae39b-9a05-4651-9e73-c445e8479073'
+
+select password from "connection" c1, "container" c2 where c2."owner" = 'd58ae39b-9a05-4651-9e73-c445e8479073'
+
+select * from "user"
+select * from "container" where "name" != 'Container'
+select * from "connection"
+select "password" from "connection" c1, "container" c2 where c1."password" is not null and c2."ownerid" = 'd2e58625-9e04-4b91-8647-87b73b4b6a28'
+
+
+
+update "snapshot" set "connection_via_connectionid" = '4eb4ffb2-13c0-4d13-914b-f59e96c907f2'
+
+delete from "connection" where "connectionid" = '3f73b869-e831-4623-8625-a2758cdd354e'
+update "connection" set "database" = 'Immo_Test_Tool-00.01:project:CHRXM~1' where "connectionid" = 'b6554a46-5c50-40a3-9daf-61338f503b79'
+
+where "snapshotid" = '63e69b5f-0718-4888-811b-a13c7b892c67'
+update "snapshot" set "name" = 'test' where "snapshotid" = 'c2710db3-3947-4bcf-b13b-8a67692ca9fa'
+delete from "contentobject" where "PARTOF" = '9c9eaf84-f5e7-408e-9056-0e3b97b8b97b'
+
+delete from "contentobject" where "ROOTDIR" is not null 
+and "PARTOF" = '47c90a1c-42ea-41dc-8a71-15e68d972c95'
+
+select * from "contentobject" where "objectid" = '2a5b3bfa-d676-4860-a469-220d84d706f6'
+select * from "snapshot"
+
+select * from "contentobject"
+
+select * from "folder_children"
+
+delete from "contentobject" cascade
+delete from "user"
+delete from "container"
+
+delete from "snapshot" where "snapshotid" = 'c2710db3-3947-4bcf-b13b-8a67692ca9fa'
+
+drop schema "PUBLIC" cascade
+
+update "user" set "username" = 'uidu1448'
+
+delete from "container" where "name" != 'Container'
