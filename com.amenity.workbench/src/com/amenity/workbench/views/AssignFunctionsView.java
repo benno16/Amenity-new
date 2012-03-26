@@ -20,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.part.ViewPart;
@@ -83,6 +84,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.hibernate.Session;
+import org.eclipse.swt.events.MouseTrackAdapter;
 
 public class AssignFunctionsView extends ViewPart {
 	
@@ -108,7 +110,6 @@ public class AssignFunctionsView extends ViewPart {
 	private Label lblDate;
 	private Text functionNameText;
 	private Table table;
-	private Label lblDeleteffs;
 	private GenericDao gDao;
 	
 //	private java.util.List<ContentObject> contentObjects;
@@ -168,9 +169,9 @@ public class AssignFunctionsView extends ViewPart {
 		containerComboViewer = new ComboViewer(parent, SWT.NONE);
 		
 		Combo containerCombo = containerComboViewer.getCombo();
-		containerCombo.addMouseListener(new MouseAdapter() {
+		containerCombo.addMouseTrackListener(new MouseTrackAdapter() {
 			@Override
-			public void mouseDown(MouseEvent e) {
+			public void mouseEnter(MouseEvent e) {
 				// refresh container list on selection
 				containerComboViewer.setInput(AssignFunctionViewMethods.getInstance().getContainerList(SessionSourceProvider.USER) );
 			}
@@ -373,54 +374,24 @@ public class AssignFunctionsView extends ViewPart {
 		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
 		
-		lblDeleteffs = new Label(parent, SWT.NONE);
-		// reviewed 14.03.2012
-		/*
-		 * TODO: übersprungen
-		 */
-		lblDeleteffs.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				objectSelection = tableViewer.getSelection();
-				structuredSelection = (IStructuredSelection) objectSelection;
-
-				if ( !structuredSelection.isEmpty()) {
-					CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods
-							.getInstance().deleteFileFunctionStatus((FileFunctionStatus) 
-									structuredSelection.getFirstElement(), 
-									CURRENT_FUNCTION_FILE_STATUS_LIST);
-					getViewSite().getActionBars().getStatusLineManager().setMessage ("item deleted");
-					
-					// refreshing table
-					CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods.getInstance()
-							.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION);
-					ORIGINAL_FUNCTION_FILE_STATUS_LIST = CURRENT_FUNCTION_FILE_STATUS_LIST;
-					tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
-				}
-			}
-		});
-		// reviewed 14.03.2012
-		lblDeleteffs.addKeyListener(new KeyAdapter() {
+		Button btnDeleteDocument = new Button(parent, SWT.NONE);
+		btnDeleteDocument.setToolTipText("Delete Document Type (DEL)");
+		btnDeleteDocument.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if ( e.keyCode == SWT.DEL)
-					objectSelection = tableViewer.getSelection();
-					structuredSelection = (IStructuredSelection) objectSelection;
-
-					if ( !structuredSelection.isEmpty()) {
-						CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods
-								.getInstance().deleteFileFunctionStatus((FileFunctionStatus) 
-										structuredSelection.getFirstElement(), 
-										CURRENT_FUNCTION_FILE_STATUS_LIST);
-						getViewSite().getActionBars().getStatusLineManager().setMessage ("item deleted");
-				}
+				if ( e.keyCode == SWT.DEL) 
+					moveFileTypeToFunction();
 			}
 		});
-		// reviewed 14.03.2012
-		lblDeleteffs.setTouchEnabled(true);
-		lblDeleteffs.setToolTipText("Remove Document Definition From List");
-		lblDeleteffs.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/gtk-delete.png"));
-		lblDeleteffs.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		btnDeleteDocument.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveFileTypeToFunction();
+			}
+		});
+		btnDeleteDocument.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/gtk-delete.png"));
+		btnDeleteDocument.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		btnDeleteDocument.setText("Delete Document");
 		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
@@ -577,48 +548,8 @@ public class AssignFunctionsView extends ViewPart {
 
 			@Override
 			public boolean performDrop(Object data) {
-				Session session = gDao.getSession();
-				session.beginTransaction();
 				
-				// look in full file list for object
-				for ( ContentObject co : CURRENT_FILE_LIST ){
-					
-					if ( co.getObjectId().equals(data) ) {
-						
-						co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
-						
-						ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
-						
-						coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
-						
-						co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
-						session.merge(co);
-						
-						break;
-					}
-					
-				}
-				
-				CURRENT_FUNCTION_LIST.clear();
-				snapshotTreeViewer.setLabelProvider(new SnapshotStyledLabelProvder ());
-				// now fill the other static variables
-				CURRENT_FUNCTION_LIST = AssignFunctionViewMethods.getInstance()
-						.getFunctions(SessionSourceProvider.CURRENT_SNAPSHOT);
-				
-				CURRENT_FILE_LIST_WITH_FUNCTION = AssignFunctionViewMethods.getInstance()
-						.getContentObjectsFunctions(CURRENT_FILE_LIST);
-
-				CURRENT_FUNCTION_FILE_LIST = AssignFunctionViewMethods.getInstance()
-						.getContentObjectsWithFunction( CURRENT_FILE_LIST_WITH_FUNCTION );
-				
-				// now fill the views
-				snapshotTreeViewer.setInput(AssignFunctionViewMethods.getInstance()
-						.getRootFolder(CURRENT_FILE_LIST));
-				snapshotTreeViewer.refresh();
-				
-				functionTreeViewer.setInput(CURRENT_FUNCTION_FILE_LIST);
-				
-				functionTreeViewer.refresh();
+				moveFunctionToSnapshot((String) data);
 				
 				return false;
 			}
@@ -641,23 +572,59 @@ public class AssignFunctionsView extends ViewPart {
 		composite_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		
 		Button arrowLeftLeft = new Button(composite_1, SWT.NONE);
+		arrowLeftLeft.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/1leftarrow.png"));
+		arrowLeftLeft.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e)  {
+				
+				try {
+					IStructuredSelection selection = (IStructuredSelection) functionTreeViewer.getSelection();
+					ContentObject firstElement = (ContentObject) selection.getFirstElement();
+					
+					
+					moveFunctionToSnapshot( firstElement.getObjectId() );
+				} catch ( Exception ex ) {}
+			}
+		});
 		arrowLeftLeft.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		arrowLeftLeft.setText("<");
 		
 		Button arrowLeftRight = new Button(composite_1, SWT.NONE);
+		arrowLeftRight.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/1rightarrow.png"));
 		
 		arrowLeftRight.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				/*
-				 * TODO: Move over to middle tree
-				 */
+
+				try {
+					IStructuredSelection selection = (IStructuredSelection) snapshotTreeViewer.getSelection();
+					ContentObject firstElement = (ContentObject) selection.getFirstElement();
+					
+					if ( !moveSnapshotToFunction( firstElement.getObjectId() ) ) {
+						getViewSite().getActionBars().getStatusLineManager().setMessage ("item already in function");
+					}
+				} catch ( Exception ex ) {}
+				
 			}
 		});
-		arrowLeftRight.setText(">");
 		
 		functionTreeViewer = new TreeViewer(parent, SWT.BORDER);
 		functionTree = functionTreeViewer.getTree();
+		functionTree.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if ( e.keyCode == SWT.DEL ) {
+
+					try {
+						IStructuredSelection selection = (IStructuredSelection) functionTreeViewer.getSelection();
+						ContentObject firstElement = (ContentObject) selection.getFirstElement();
+						
+						
+						moveFunctionToSnapshot( firstElement.getObjectId() );
+					} catch ( Exception ex ) {}
+				}
+				
+			}
+		});
 		functionTree.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -781,37 +748,10 @@ public class AssignFunctionsView extends ViewPart {
 				 * TODO: getting content right
 				 * refreshing the snapshottreeviewer
 				 */
-				
-				for ( ContentObject co : CURRENT_FUNCTION_FILE_LIST) {
-					if ( co.getObjectId().equals(data)) {
-						
-						btnSave.setEnabled(false);
-						btnSave.setText("Apply");
-						return false;
-						
-					}
+				if ( !moveSnapshotToFunction( (String) data ) ) {
+					getViewSite().getActionBars().getStatusLineManager().setMessage ("item already in function");
 				}
 				
-				if ( SessionSourceProvider.CURRENT_FUNCTION != null ) {
-					for ( ContentObject co : CURRENT_FILE_LIST )
-						if ( co.getObjectId().equals(data.toString() )) {
-							
-							storeFunctionInfoInFile(co);
-							
-							break;
-						}
-					
-					snapshotTree.removeAll();
-					
-					snapshotTreeViewer.setLabelProvider( new SnapshotStyledLabelProvder(CURRENT_FILE_LIST) );
-					snapshotTreeViewer.setInput(AssignFunctionViewMethods.getInstance().getRootFolder(CURRENT_FILE_LIST) );
-
-					functionTreeViewer.setInput(CURRENT_FUNCTION_FILE_LIST);
-				} else {
-					MessageDialog.openInformation(composite.getShell(), 
-							"Information", "Please select or create a function first");
-				}
-				AssignFunctionViewFilters.getInstance().setUndefinedItem();
 				return false;
 			}
 
@@ -838,14 +778,48 @@ public class AssignFunctionsView extends ViewPart {
 		compositeM.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		
 		Button arrowRightLeft = new Button(compositeM, SWT.NONE);
+		arrowRightLeft.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveFileTypeToFunction();
+			}
+		});
+		arrowRightLeft.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/1leftarrow.png"));
 		arrowRightLeft.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		arrowRightLeft.setText("<");
 		
 		Button arrowRightRight = new Button(compositeM, SWT.NONE);
-		arrowRightRight.setText(">");
+		arrowRightRight.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					IStructuredSelection selection = (IStructuredSelection) functionTreeViewer.getSelection();
+					ContentObject firstElement = (ContentObject) selection.getFirstElement();
+					
+					
+					moveFunctionToFileType( firstElement.getObjectId() );
+				} catch ( Exception ex ) {}
+			}
+		});
+		arrowRightRight.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/1rightarrow.png"));
 		
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
+		table.setToolTipText("Double click file to open properties");
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.ui.views.PropertySheet");
+				} catch (PartInitException e1) {}
+			}
+		});
+		table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if ( e.keyCode == SWT.DEL) 
+					moveFileTypeToFunction();
+			}
+		});
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
@@ -856,21 +830,8 @@ public class AssignFunctionsView extends ViewPart {
 
 			@Override
 			public boolean performDrop(Object data) {
-				FileFunctionStatus ffs = GeneralFactory.eINSTANCE.createFileFunctionStatus();
-
-				FileFunctionStatusDao ffsDao = DaoFactory.eINSTANCE.createFileFunctionStatusDao();
 				
-				ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
-
-				ffs = (FileFunctionStatus) ffsDao.createFfsWithFunctionIdObjectId(
-						(File)coDao.getById(data.toString()), 
-						SessionSourceProvider.CURRENT_FUNCTION, 
-						ffs);
-				
-				CURRENT_FUNCTION_FILE_STATUS_LIST.add(ffs);
-				
-				tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
-				tableViewer.refresh();
+				moveFunctionToFileType( (String)data);
 				
 				return false;
 			}
@@ -963,6 +924,7 @@ public class AssignFunctionsView extends ViewPart {
 		new Label(parent, SWT.NONE);
 		
 		Button btnCompareTo = new Button(parent, SWT.NONE);
+		btnCompareTo.setToolTipText("Compares Snapshot to Former One");
 		btnCompareTo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -1048,6 +1010,16 @@ public class AssignFunctionsView extends ViewPart {
 		new Label(parent, SWT.NONE);
 		
 		Button btnSetStatus = new Button(parent, SWT.NONE);
+		btnSetStatus.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.ui.views.PropertySheet");
+				} catch (PartInitException e1) {}
+				
+			}
+		});
 		btnSetStatus.setToolTipText("Open Properties Window");
 		btnSetStatus.setImage(ResourceManager.getPluginImage("com.amenity.workbench", 
 				"icons/workbench/general/up.png"));
@@ -1201,6 +1173,138 @@ public class AssignFunctionsView extends ViewPart {
 			}
 		}
 	}
+
+	
+	/*
+	 * New drag and drop stuff
+	 */
+	
+	private void moveFileTypeToFunction() {
+		// delete function! 
+		objectSelection = tableViewer.getSelection();
+		structuredSelection = (IStructuredSelection) objectSelection;
+
+		if ( !structuredSelection.isEmpty()) {
+			CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods
+					.getInstance().deleteFileFunctionStatus((FileFunctionStatus) 
+							structuredSelection.getFirstElement(), 
+							CURRENT_FUNCTION_FILE_STATUS_LIST);
+			getViewSite().getActionBars().getStatusLineManager().setMessage ("item deleted");
+			
+			// refreshing table
+			CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods.getInstance()
+					.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION);
+			ORIGINAL_FUNCTION_FILE_STATUS_LIST = CURRENT_FUNCTION_FILE_STATUS_LIST;
+			tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
+		}
+	}
+	
+	public void moveFunctionToFileType ( String data ) {
+		FileFunctionStatus ffs = GeneralFactory.eINSTANCE.createFileFunctionStatus();
+
+		FileFunctionStatusDao ffsDao = DaoFactory.eINSTANCE.createFileFunctionStatusDao();
+		
+		ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
+
+		ffs = (FileFunctionStatus) ffsDao.createFfsWithFunctionIdObjectId(
+				(File)coDao.getById(data.toString()), 
+				SessionSourceProvider.CURRENT_FUNCTION, 
+				ffs);
+		
+		CURRENT_FUNCTION_FILE_STATUS_LIST.add(ffs);
+		
+		tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
+		tableViewer.refresh();
+	}
+	
+	public boolean moveSnapshotToFunction ( String data ) {
+		
+		for ( ContentObject co : CURRENT_FUNCTION_FILE_LIST) {
+			if ( co.getObjectId().equals(data)) {
+				
+				btnSave.setEnabled(false);
+				btnSave.setText("Apply");
+				return false;
+				
+			}
+		}
+		
+		if ( SessionSourceProvider.CURRENT_FUNCTION != null ) {
+			for ( ContentObject co : CURRENT_FILE_LIST )
+				if ( co.getObjectId().equals(data.toString() )) {
+					
+					storeFunctionInfoInFile(co);
+					
+					break;
+				}
+			
+			snapshotTree.removeAll();
+			
+			snapshotTreeViewer.setLabelProvider( new SnapshotStyledLabelProvder(CURRENT_FILE_LIST) );
+			snapshotTreeViewer.setInput(AssignFunctionViewMethods.getInstance().getRootFolder(CURRENT_FILE_LIST) );
+
+			functionTreeViewer.setInput(CURRENT_FUNCTION_FILE_LIST);
+		} else {
+			MessageDialog.openInformation(composite.getShell(), 
+					"Information", "Please select or create a function first");
+			return true;
+		}
+		AssignFunctionViewFilters.getInstance().setUndefinedItem();
+		
+
+		btnSave.setEnabled(true);
+		btnSave.setText("Apply *");
+		
+		return true;
+	}
+	
+	
+	public void moveFunctionToSnapshot ( String data ) {
+		Session session = gDao.getSession();
+		session.beginTransaction();
+		
+		// look in full file list for object
+		for ( ContentObject co : CURRENT_FILE_LIST ){
+			
+			if ( co.getObjectId().equals(data) ) {
+				
+				co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
+				
+				ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
+				
+				coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
+				
+				co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
+				session.merge(co);
+				
+				break;
+			}
+			
+		}
+		
+		CURRENT_FUNCTION_LIST.clear();
+		snapshotTreeViewer.setLabelProvider(new SnapshotStyledLabelProvder ());
+		// now fill the other static variables
+		CURRENT_FUNCTION_LIST = AssignFunctionViewMethods.getInstance()
+				.getFunctions(SessionSourceProvider.CURRENT_SNAPSHOT);
+		
+		CURRENT_FILE_LIST_WITH_FUNCTION = AssignFunctionViewMethods.getInstance()
+				.getContentObjectsFunctions(CURRENT_FILE_LIST);
+
+		CURRENT_FUNCTION_FILE_LIST = AssignFunctionViewMethods.getInstance()
+				.getContentObjectsWithFunction( CURRENT_FILE_LIST_WITH_FUNCTION );
+		
+		// now fill the views
+		snapshotTreeViewer.setInput(AssignFunctionViewMethods.getInstance()
+				.getRootFolder(CURRENT_FILE_LIST));
+		snapshotTreeViewer.refresh();
+		
+		functionTreeViewer.setInput(CURRENT_FUNCTION_FILE_LIST);
+		
+		functionTreeViewer.refresh();
+		session.close();
+	}
+	
 	
 	@Override
 	public void setFocus() {}
