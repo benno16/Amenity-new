@@ -30,6 +30,10 @@ import org.eclipse.swt.events.SelectionEvent;
 
 import com.amenity.engine.helper.synergy.SynergyLogin;
 import com.amenity.workbench.SessionSourceProvider;
+
+import dao.ContainerDao;
+import dao.DaoFactory;
+
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.custom.StyledText;
@@ -237,6 +241,9 @@ public class Page2_Synergy extends WizardPage {
 	}
 	
 	private void connectButtonStatus() {
+
+		ContainerDao cDao = DaoFactory.eINSTANCE.createContainerDao();
+		cDao.setOwner(SessionSourceProvider.USER);
 		
 		if ( SessionSourceProvider.SYNERGY_SID == null || 
 				SessionSourceProvider.SYNERGY_SID.length() < 1 ) {

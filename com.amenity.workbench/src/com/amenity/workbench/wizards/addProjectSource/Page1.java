@@ -70,7 +70,7 @@ public class Page1 extends WizardPage {
 		containerDao = DaoFactory.eINSTANCE.createContainerDao();
 		containers = (List<Container>) containerDao.getListByOwner(Container.class, SessionSourceProvider.USER); 
 		Label lblDataSource = new Label(container, SWT.NONE);
-		lblDataSource.setBounds(10, 10, 100, 15);
+		lblDataSource.setBounds(32, 10, 78, 15);
 		lblDataSource.setText("Data Source");
 		
 		btnMksIntegrity = new Button(container, SWT.RADIO);
@@ -119,7 +119,7 @@ public class Page1 extends WizardPage {
 		}
 		
 		Label lblContainer = new Label(container, SWT.NONE);
-		lblContainer.setBounds(10, 65, 100, 15);
+		lblContainer.setBounds(32, 65, 78, 15);
 		lblContainer.setText("Container");
 		
 		Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -139,6 +139,14 @@ public class Page1 extends WizardPage {
 		});
 		btnAddContainer.setBounds(444, 91, 120, 25);
 		btnAddContainer.setText("Add Container");
+		
+		Label lblImg = new Label(container, SWT.NONE);
+		lblImg.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/drive-harddisk.png"));
+		lblImg.setBounds(10, 65, 16, 16);
+		
+		Label label_1 = new Label(container, SWT.NONE);
+		label_1.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/server.png"));
+		label_1.setBounds(10, 10, 16, 16);
 		setPageComplete ( false );
 	}
 	

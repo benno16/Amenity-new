@@ -11,6 +11,7 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 
 import com.amenity.workbench.SessionSourceProvider;
+import org.eclipse.wb.swt.ResourceManager;
 
 public class Page1 extends WizardPage {
 	
@@ -44,7 +45,7 @@ public class Page1 extends WizardPage {
 		setControl(container);
 		
 		final Label lblContainerName = new Label(container, SWT.NONE);
-		lblContainerName.setBounds(10, 10, 100, 15);
+		lblContainerName.setBounds(32, 10, 78, 15);
 		lblContainerName.setText("Container Name");
 		txtContainerName = new Text(container, SWT.BORDER);
 		txtContainerName.addKeyListener(new KeyAdapter() {
@@ -77,13 +78,21 @@ public class Page1 extends WizardPage {
 		txtContainerName.setBounds(116, 10, 448, 21);
 		
 		Label lblDescription = new Label(container, SWT.NONE);
-		lblDescription.setBounds(10, 40, 100, 15);
+		lblDescription.setBounds(32, 40, 78, 15);
 		lblDescription.setText("Description");
 		
 		txtDescription = new Text(container, SWT.BORDER);
 		txtDescription.setBounds(116, 37, 448, 21);
 		
 		setControl ( container );
+		
+		Label lblImg = new Label(container, SWT.NONE);
+		lblImg.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/drive-harddisk.png"));
+		lblImg.setBounds(10, 10, 16, 16);
+		
+		Label label = new Label(container, SWT.NONE);
+		label.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/comment.png"));
+		label.setBounds(10, 39, 16, 16);
 		setPageComplete ( false );
 	}
 }

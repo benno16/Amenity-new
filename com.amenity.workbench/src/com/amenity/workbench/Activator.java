@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -36,7 +37,7 @@ public class Activator extends AbstractUIPlugin {
 
 
 	protected void initializeDefaultPreferences(IPreferenceStore store) {
-
+		
 		// Database default settings
 		store.setDefault(WorkbenchConstants.DBDBNAME, "amenity" );
 		store.setDefault(WorkbenchConstants.DBDRIVER, "org.hsqldb.jdbcDriver" );
@@ -54,6 +55,11 @@ public class Activator extends AbstractUIPlugin {
 		store.setDefault(WorkbenchConstants.SGYINI_FILE, 
 				System.getenv("userprofile").replace('\\', '/') + "\\ccm71.ini" );
 		store.setDefault(WorkbenchConstants.SGYPROJECT, "/appl/telelogic/ccmdb71/HRXM_RBG" );
+		
+		// File Type default settings
+		store.setDefault(WorkbenchConstants.FILEEXTN,"doc,xls,rtf,pdf,htm,html,chm,vsd,ppt,txt");
+		store.setDefault(WorkbenchConstants.FILETYPE, "scs,scsrm,srs,srsrm,sddrm,scrm,Lint,smts" +
+				",smtsrm,smtr,smtl,sits,sitsrm,sitl,sitr,svts,svtsrm");
 	}
 	
 	/*

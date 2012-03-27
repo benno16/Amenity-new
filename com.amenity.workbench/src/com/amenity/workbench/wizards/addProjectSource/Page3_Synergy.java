@@ -22,6 +22,9 @@ import com.amenity.engine.helper.gui.labelProvider.GenericNameLabelProvider;
 import com.amenity.engine.helper.synergy.SynergyProject;
 import com.amenity.workbench.SessionSourceProvider;
 
+import dao.ContainerDao;
+import dao.DaoFactory;
+
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -222,6 +225,10 @@ public class Page3_Synergy extends WizardPage {
 	
 	private void checkPageComplete() {
 		ProjectWizard wizard = (ProjectWizard)getWizard();
+
+		ContainerDao cDao = DaoFactory.eINSTANCE.createContainerDao();
+		cDao.setOwner(SessionSourceProvider.USER);
+		
 		if ( text.getText().length() > 1 && wizard.connection.getProject().length() > 0 
 				&& wizard.connection.getRelease().length() > 0 ) {
 			setMessage("Press Finish to create your connection", 

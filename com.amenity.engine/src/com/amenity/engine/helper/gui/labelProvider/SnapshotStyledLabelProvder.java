@@ -80,7 +80,9 @@ public class SnapshotStyledLabelProvder extends StyledCellLabelProvider  {
 			s.close();
 		} else {
 			if ( element instanceof Folder ) {
+				
 				Folder folder = (Folder) element;
+				
 				for ( ContentObject co : contentObjects ) {
 					if ( co.getObjectId().equals(folder.getObjectId())) {
 						text.append(co.getName());
@@ -95,13 +97,16 @@ public class SnapshotStyledLabelProvder extends StyledCellLabelProvider  {
 					cell.setImage(PlatformUI.getWorkbench().getSharedImages()
 							.getImage(ISharedImages.IMG_OBJS_ERROR_TSK));
 					
-				}else 
-					if ( ((Folder) element).getFunction().size() > 0  ) 
-						
-					colorCell(cell);
-				
+				}else {
+					try {
+						if ( ((Folder) element).getFunction().size() > 0 ) 
+							colorCell(cell);
+					} catch (Exception ex){} 
+				}
 			} else {
+				
 				File file = (File) element;
+				
 				for ( ContentObject co : contentObjects ) {
 					if ( co.getObjectId().equals(file.getObjectId())) {
 						text.append(co.getName());
@@ -116,11 +121,11 @@ public class SnapshotStyledLabelProvder extends StyledCellLabelProvider  {
 					cell.setImage(PlatformUI.getWorkbench().getSharedImages()
 							.getImage(ISharedImages.IMG_OBJS_ERROR_TSK));
 					
-				}else 
-					if ( ((File) element).getFunction().size() > 0  ) 
-						
-					colorCell(cell);
-				
+				} else 
+					try {
+						if ( ((File) element).getFunction().size() > 0 )   
+							colorCell(cell);
+					} catch (Exception ex){} 
 			}
 		}
 		

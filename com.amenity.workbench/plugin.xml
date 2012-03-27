@@ -262,11 +262,41 @@
                label="File"
                mnemonic="F">
             <command
-                  commandId="com.amenity.workbench.views.activities.showContainerView"
+                  commandId="com.amenity.workbench.views.activities.openManagePerspective"
                   icon="icons/workbench/general/drive-harddisk.png"
                   label="&amp;Connections"
+                  style="push"
+                  tooltip="Opens Connection Management">
+            </command>
+            <separator
+                  name="com.amenity.workbench.separator3"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="com.amenity.workbench.wizard.ContainerWizardCommand"
+                  icon="icons/workbench/general/folder_new.png"
+                  label="&amp;Add Container"
+                  mnemonic="o"
                   style="push">
             </command>
+            <command
+                  commandId="com.amenity.workbench.wizard.newDataSoure"
+                  icon="icons/workbench/general/filenew.png"
+                  label="&amp;Add Connection"
+                  mnemonic="o"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.amenity.workbench.wizard.SnapshotWizardCommand"
+                  icon="icons/workbench/general/gnome-dev-computer.png"
+                  label="&amp;Add Snapshot"
+                  mnemonic="h"
+                  style="push">
+            </command>
+            <separator
+                  name="com.amenity.workbench.separator4"
+                  visible="true">
+            </separator>
             <command
                   commandId="org.eclipse.ui.file.exit"
                   icon="icons/workbench/general/exit.png"
@@ -281,15 +311,31 @@
                   label="&amp;Settings"
                   style="push">
             </command>
-         </menu>
-         <menu
-               label="&amp;Add View">
+            <separator
+                  name="com.amenity.workbench.separator5"
+                  visible="true">
+            </separator>
             <command
-                  commandId="com.amenity.workbench.views.activities.ShowStartupView"
-                  icon="icons/workbench/general/System start menu.png"
-                  label="&amp;Sidebar"
+                  commandId="org.eclipse.ui.window.resetPerspective"
+                  icon="icons/workbench/general/cnr-not_connected.png"
+                  label="Reset Perspectives"
                   style="push">
             </command>
+         </menu>
+         <menu
+               label="&amp;Add View"
+               tooltip="This adds another view to the current perspective">
+            <command
+                  commandId="com.amenity.workbench.views.activities.OpenSecond"
+                  icon="icons/workbench/general/2rightarrow.png"
+                  label="&amp;Open Second Instance"
+                  style="push"
+                  tooltip="Open the application a second time">
+            </command>
+            <separator
+                  name="com.amenity.workbench.separator1"
+                  visible="true">
+            </separator>
             <command
                   commandId="com.amenity.workbench.views.activities.WorkbenchView"
                   icon="icons/workbench/general/package_network.png"
@@ -321,20 +367,28 @@
                   style="push">
             </command>
             <command
-                  commandId="com.amenity.workbench.views.activities.ShowSetStatsView"
-                  icon="icons/workbench/general/up.png"
-                  label="&amp;Set Status"
-                  style="push">
-            </command>
-            <command
                   commandId="com.amenity.workbench.views.activities.ShowEventLogView"
-                  icon="icons/workbench/general/dialog-warning.png"
+                  icon="icons/workbench/general/events.png"
                   label="&amp;Event Log"
                   style="push">
             </command>
          </menu>
          <menu
                label="&amp;Help">
+            <command
+                  commandId="org.eclipse.ui.help.helpContents"
+                  label="&amp;Help"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.help.helpSearch"
+                  label="&amp;Search"
+                  style="push">
+            </command>
+            <separator
+                  name="com.amenity.workbench.separator2"
+                  visible="true">
+            </separator>
             <command
                   commandId="org.eclipse.ui.help.aboutAction"
                   icon="icons/workbench/general/utilities-system-monitor.png"
@@ -349,7 +403,7 @@
          <toolbar
                id="Main">
             <command
-                  commandId="com.amenity.workbench.wizard.newDataSoure"
+                  commandId="com.amenity.workbench.views.activities.openStartupPerspective"
                   icon="icons/workbench/general/gohome.png"
                   label="&amp;Home"
                   style="push"
@@ -385,7 +439,7 @@
                   commandId="com.amenity.workbench.wizard.ContainerWizardCommand"
                   icon="icons/workbench/general/folder_new.png"
                   label="&amp;Add Container"
-                  mnemonic="c"
+                  mnemonic="o"
                   style="push">
                <visibleWhen
                      checkEnabled="false">
@@ -400,8 +454,8 @@
             <command
                   commandId="com.amenity.workbench.wizard.newDataSoure"
                   icon="icons/workbench/general/filenew.png"
-                  label="&amp;Add Data Source"
-                  mnemonic="s"
+                  label="&amp;Add Connection"
+                  mnemonic="c"
                   style="push">
                <visibleWhen
                      checkEnabled="true">
@@ -519,6 +573,26 @@
             id="com.amenity.workbench.wizard.ContainerWizardCommand"
             name="ContainerWizardCommand">
       </command>
+      <command
+            defaultHandler="com.amenity.workbench.views.activities.OpenSecond"
+            id="com.amenity.workbench.views.activities.OpenSecond"
+            name="showAmenity">
+      </command>
+      <command
+            defaultHandler="com.amenity.workbench.views.activities.openManagePerspective"
+            id="com.amenity.workbench.views.activities.openManagePerspective"
+            name="openManagePerspective">
+      </command>
+      <command
+            defaultHandler="com.amenity.workbench.views.activities.openStartupPerspective"
+            id="com.amenity.workbench.views.activities.openStartupPerspective"
+            name="openStartupPerspective">
+      </command>
+      <command
+            defaultHandler="com.amenity.workbench.views.activities.resetPerspectives"
+            id="com.amenity.workbench.views.activities.resetPerspectives"
+            name="resetPerspectives">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -527,6 +601,30 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+X">
+      </key>
+      <key
+            commandId="com.amenity.workbench.wizard.ContainerWizardCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+I">
+      </key>
+      <key
+            commandId="com.amenity.workbench.wizard.newDataSoure"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+O">
+      </key>
+      <key
+            commandId="com.amenity.workbench.wizard.SnapshotWizardCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+H">
+      </key>
+      <key
+            commandId="org.eclipse.ui.help.helpContents"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F1">
       </key>
    </extension>
    <extension
@@ -581,6 +679,11 @@
             class="com.amenity.workbench.preferencepage.SettingsPage2"
             id="com.amenity.workbench.preferencepage.SettingsPage2"
             name="Synergy Settings">
+      </page>
+      <page
+            class="com.amenity.workbench.preferencepage.SettingsPage3"
+            id="com.amenity.workbench.preferencepage.SettingsPage3"
+            name="File Type Assoziation">
       </page>
    </extension>
 

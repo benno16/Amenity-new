@@ -30,8 +30,10 @@ public class WorkbenchConstants {
 	public static final String SGYINI_FILE = "SGYINI_FILE";
 	public static final String SGYPROJECT = "SGYPROJECT";
 	public static final boolean SGYCHANGE = false;
-//	public static final String = "";
-//	public static final String = "";
+	
+	
+	public static final String FILETYPE = "FILETYPE";
+	public static final String FILEEXTN = "FILEEXTN";
 //	public static final String = "";
 //	public static final String = "";
 //	public static final String = "";

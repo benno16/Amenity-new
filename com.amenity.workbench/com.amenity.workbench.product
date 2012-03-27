@@ -42,11 +42,9 @@ This product is developed by Continental
       </win>
    </launcher>
 
-
    <vm>
       <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
    </vm>
-
 
    <plugins>
       <plugin id="ch.qos.logback.classic"/>
@@ -55,15 +53,19 @@ This product is developed by Continental
       <plugin id="com.amenity.dbserver"/>
       <plugin id="com.amenity.engine"/>
       <plugin id="com.amenity.framework"/>
+      <plugin id="com.amenity.mainHelp"/>
       <plugin id="com.amenity.model"/>
       <plugin id="com.amenity.workbench"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.activation"/>
+      <plugin id="javax.el"/>
       <plugin id="javax.mail"/>
       <plugin id="javax.persistence"/>
       <plugin id="javax.servlet"/>
+      <plugin id="javax.servlet.jsp"/>
       <plugin id="javax.transaction" fragment="true"/>
       <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.jasper.glassfish"/>
       <plugin id="org.apache.log4j"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
@@ -105,7 +107,10 @@ This product is developed by Continental
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.http.jetty"/>
+      <plugin id="org.eclipse.equinox.http.registry"/>
       <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.jsp.jasper"/>
+      <plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
       <plugin id="org.eclipse.equinox.p2.core"/>
       <plugin id="org.eclipse.equinox.p2.engine"/>
       <plugin id="org.eclipse.equinox.p2.metadata"/>
@@ -116,8 +121,10 @@ This product is developed by Continental
       <plugin id="org.eclipse.equinox.security"/>
       <plugin id="org.eclipse.equinox.security.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.help"/>
+      <plugin id="org.eclipse.help.appserver"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.help.ui"/>
+      <plugin id="org.eclipse.help.webapp"/>
       <plugin id="org.eclipse.jdt"/>
       <plugin id="org.eclipse.jdt.compiler.apt" fragment="true"/>
       <plugin id="org.eclipse.jdt.compiler.tool" fragment="true"/>
@@ -168,14 +175,18 @@ This product is developed by Continental
       <plugin id="com.amenity.dbserver" autoStart="true" startLevel="0" />
       <plugin id="com.amenity.engine" autoStart="false" startLevel="0" />
       <plugin id="com.amenity.framework" autoStart="false" startLevel="0" />
+      <plugin id="com.amenity.mainHelp" autoStart="false" startLevel="0" />
       <plugin id="com.amenity.model" autoStart="false" startLevel="0" />
       <plugin id="com.amenity.workbench" autoStart="false" startLevel="0" />
       <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
       <plugin id="javax.activation" autoStart="false" startLevel="0" />
+      <plugin id="javax.el" autoStart="false" startLevel="0" />
       <plugin id="javax.mail" autoStart="false" startLevel="0" />
       <plugin id="javax.persistence" autoStart="false" startLevel="0" />
       <plugin id="javax.servlet" autoStart="false" startLevel="0" />
+      <plugin id="javax.servlet.jsp" autoStart="false" startLevel="0" />
       <plugin id="org.apache.commons.logging" autoStart="false" startLevel="0" />
+      <plugin id="org.apache.jasper.glassfish" autoStart="false" startLevel="0" />
       <plugin id="org.apache.log4j" autoStart="false" startLevel="0" />
       <plugin id="org.apache.lucene" autoStart="false" startLevel="0" />
       <plugin id="org.apache.lucene.analysis" autoStart="false" startLevel="0" />
@@ -214,7 +225,10 @@ This product is developed by Continental
       <plugin id="org.eclipse.equinox.app" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.http.jetty" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.registry" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.http.servlet" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.equinox.jsp.jasper" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.equinox.jsp.jasper.registry" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.p2.core" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.p2.engine" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.p2.metadata" autoStart="false" startLevel="0" />
@@ -224,8 +238,10 @@ This product is developed by Continental
       <plugin id="org.eclipse.equinox.registry" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.security" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.help" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.help.appserver" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.help.base" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.help.ui" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.help.webapp" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.jdt" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.jdt.core" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.jdt.debug" autoStart="false" startLevel="0" />

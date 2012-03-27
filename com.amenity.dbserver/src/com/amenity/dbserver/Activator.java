@@ -50,7 +50,6 @@ public class Activator implements BundleActivator {
 		p.setProperty("server.dbname.0", Platform.getPreferencesService().getString( 
 				"com.amenity.workbench" , 
 				"DBDBNAME" , "amenity", null ));
-
 		
 		server = new org.hsqldb.server.Server();;
 		

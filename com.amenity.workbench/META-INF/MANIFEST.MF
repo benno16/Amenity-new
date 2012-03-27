@@ -19,7 +19,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.databinding;bundle-version="1.2.0",
  org.eclipse.jface.databinding;bundle-version="1.6.0",
  org.eclipse.core.databinding.property;bundle-version="1.4.0",
- com.amenity.engine;bundle-version="1.0.0"
+ com.amenity.engine;bundle-version="1.0.0",
+ org.eclipse.help.ui;bundle-version="3.5.200",
+ org.eclipse.help.appserver;bundle-version="3.1.400",
+ org.eclipse.help.webapp;bundle-version="3.6.100",
+ com.amenity.mainHelp;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,

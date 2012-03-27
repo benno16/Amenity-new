@@ -222,7 +222,7 @@ public class GenericDaoImpl extends EObjectImpl implements GenericDao {
 		try {
 			session.getTransaction().commit();
 		} catch ( Exception e ){
-			e.printStackTrace();
+//			e.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
 			session.close();

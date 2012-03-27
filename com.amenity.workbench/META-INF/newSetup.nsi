@@ -40,7 +40,7 @@ Var StartMenuGroup
 
 # Installer attributes
 OutFile setup.exe
-InstallDir $PROGRAMFILES\Amenity
+InstallDir "D:\Program Files\Amenity"
 CRCCheck on
 XPStyle on
 ShowInstDetails show
@@ -65,7 +65,7 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /r "C:\Documents and Settings\uidu1448\Desktop\OUTPUT\eclipse\*"
+    File /r "C:\Documents and Settings\uidu1448\Desktop\OUTPUT\amenity\*"
     SetOutPath $DESKTOP
     CreateShortcut $DESKTOP\Amenity.lnk $INSTDIR\amenity.exe
     !insertmacro CREATE_SMGROUP_SHORTCUT Amenity $INSTDIR\amenity.exe
@@ -120,6 +120,7 @@ Section -un.post UNSEC0001
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
+    RMDir "$INSTDIR"
     DeleteRegValue HKLM "${REGKEY}" StartMenuGroup
     DeleteRegValue HKLM "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKLM "${REGKEY}\Components"
@@ -170,4 +171,3 @@ no_smgroup:
     Pop $R2
     Pop $R1
 FunctionEnd
-

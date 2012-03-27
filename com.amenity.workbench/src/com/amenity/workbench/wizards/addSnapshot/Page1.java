@@ -327,6 +327,7 @@ public class Page1 extends WizardPage {
 				SnapshotDao snapshotDao = DaoFactory.eINSTANCE.createSnapshotDao();
 				snapshotDao.create(snapshot);
 				SessionSourceProvider.CURRENT_SNAPSHOT = snapshot;
+				btnCreate.setEnabled(false);
 				
 				progressBar.setVisible(true);
 				progressBar.setState(SWT.NORMAL);

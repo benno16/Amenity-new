@@ -27,6 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -64,12 +65,15 @@ import com.amenity.workbench.SessionSourceProvider;
 import com.amenity.workbench.dialogs.CreateFunctionDialog;
 import com.amenity.workbench.supporter.AssignFunctionViewFilters;
 import com.amenity.workbench.supporter.AssignFunctionViewMethods;
+import com.amenity.workbench.supporter.WorkbenchConstants;
 
+import dao.ContainerDao;
 import dao.ContentObjectDao;
 import dao.DaoFactory;
 import dao.FileFunctionStatusDao;
 import dao.GenericDao;
 import dao.SnapshotDao;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -110,6 +114,7 @@ public class AssignFunctionsView extends ViewPart {
 	private Label lblDate;
 	private Text functionNameText;
 	private Table table;
+	private Combo containerCombo;
 	private GenericDao gDao;
 	
 //	private java.util.List<ContentObject> contentObjects;
@@ -168,12 +173,15 @@ public class AssignFunctionsView extends ViewPart {
 		 */
 		containerComboViewer = new ComboViewer(parent, SWT.NONE);
 		
-		Combo containerCombo = containerComboViewer.getCombo();
+		containerCombo = containerComboViewer.getCombo();
 		containerCombo.addMouseTrackListener(new MouseTrackAdapter() {
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// refresh container list on selection
 				containerComboViewer.setInput(AssignFunctionViewMethods.getInstance().getContainerList(SessionSourceProvider.USER) );
+				try {
+					containerCombo.setText(SessionSourceProvider.CURRENT_CONTAINER.getName());
+				} catch (NullPointerException npe ) {}
 			}
 		});
 		
@@ -379,14 +387,20 @@ public class AssignFunctionsView extends ViewPart {
 		btnDeleteDocument.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if ( e.keyCode == SWT.DEL) 
-					moveFileTypeToFunction();
+				if ( e.keyCode == SWT.DEL) {
+
+					objectSelection = tableViewer.getSelection();
+					structuredSelection = (IStructuredSelection) objectSelection;
+					moveFileTypeToFunction(structuredSelection.getFirstElement());
+				}
 			}
 		});
 		btnDeleteDocument.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				moveFileTypeToFunction();
+				objectSelection = tableViewer.getSelection();
+				structuredSelection = (IStructuredSelection) objectSelection;
+				moveFileTypeToFunction(structuredSelection.getFirstElement());
 			}
 		});
 		btnDeleteDocument.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/gtk-delete.png"));
@@ -781,7 +795,9 @@ public class AssignFunctionsView extends ViewPart {
 		arrowRightLeft.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				moveFileTypeToFunction();
+				objectSelection = tableViewer.getSelection();
+				structuredSelection = (IStructuredSelection) objectSelection;
+				moveFileTypeToFunction(structuredSelection.getFirstElement());
 			}
 		});
 		arrowRightLeft.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/1leftarrow.png"));
@@ -816,8 +832,13 @@ public class AssignFunctionsView extends ViewPart {
 		table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if ( e.keyCode == SWT.DEL) 
-					moveFileTypeToFunction();
+				if ( e.keyCode == SWT.DEL) {
+
+					objectSelection = tableViewer.getSelection();
+					structuredSelection = (IStructuredSelection) objectSelection;
+					moveFileTypeToFunction(structuredSelection.getFirstElement());
+					
+				}
 			}
 		});
 		table.setLinesVisible(true);
@@ -1033,6 +1054,7 @@ public class AssignFunctionsView extends ViewPart {
 		lblConfigured.setText("Configured");
 		
 		lblDate = new Label(parent, SWT.NONE);
+		lblDate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		lblDate.setText("");
 		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
@@ -1063,6 +1085,9 @@ public class AssignFunctionsView extends ViewPart {
 
 					btnSave.setEnabled(false);
 					btnSave.setText("Apply");
+
+					ContainerDao cDao = DaoFactory.eINSTANCE.createContainerDao();
+					cDao.setOwner(SessionSourceProvider.USER);
 					
 				}
 			}
@@ -1132,6 +1157,7 @@ public class AssignFunctionsView extends ViewPart {
 		snapshotTreeViewer.refresh();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void storeFunctionInfoInFile( ContentObject co ) {
 		if ( co instanceof File || co instanceof Folder ) {
 			
@@ -1143,7 +1169,8 @@ public class AssignFunctionsView extends ViewPart {
 					
 					for ( Function f : CURRENT_FILE_LIST.get(i).getFunction() ) {
 						
-						if ( f.getFunctionId().equals(SessionSourceProvider.CURRENT_FUNCTION.getFunctionId() )) {
+						if ( f.getFunctionId().equals(SessionSourceProvider
+								.CURRENT_FUNCTION.getFunctionId() )) {
 
 							functionAlreadyInPlace = true;
 							break; 
@@ -1152,7 +1179,8 @@ public class AssignFunctionsView extends ViewPart {
 						
 					}
 					if ( !functionAlreadyInPlace ) 
-						CURRENT_FILE_LIST.get(i).getFunction().add(SessionSourceProvider.CURRENT_FUNCTION);
+						CURRENT_FILE_LIST.get(i).getFunction()
+						.add(SessionSourceProvider.CURRENT_FUNCTION);
 					
 					co = CURRENT_FILE_LIST.get(i);
 					break;
@@ -1161,13 +1189,64 @@ public class AssignFunctionsView extends ViewPart {
 				
 			}
 			
+			if ( co instanceof File ) {
+				
+				java.util.List<String> fileTypes = Arrays.asList(Platform
+						.getPreferencesService().getString( 
+								"com.amenity.workbench" , 
+								WorkbenchConstants.FILETYPE , 
+								"scs,scsrm,srs,srsrm,sddrm,scrm,Lint,smts," +
+								"smtsrm,smtr,smtl,sits,sitsrm,sitl,sitr,svts,svtsrm", 
+								null ).split(","));
+				java.util.List<String> fileExtns = Arrays.asList(Platform
+						.getPreferencesService().getString( 
+								"com.amenity.workbench" , 
+								WorkbenchConstants.FILEEXTN , 
+								"doc,xls,rtf,pdf,htm,html,chm,vsd,ppt,txt", null ).split(","));
+
+				for ( String extn : fileExtns ) {
+					if ( ("." + extn).equals(((File) co).getSuffix())) {
+						for ( String type : fileTypes ) {
+
+							if ( ((File)co).getName().contains(type)) {
+								
+								// Add it to FFS
+								System.out.println("I found a match");
+								FileFunctionStatus ffs = GeneralFactory.eINSTANCE.createFileFunctionStatus();
+								ffs.setOfFile(co);
+								ffs.setOfFunction(SessionSourceProvider.CURRENT_FUNCTION);
+								ffs.setSetOn(new Date());
+								GenericDao gDao = DaoFactory.eINSTANCE.createGenericDao();
+								Session session = gDao.getSession();
+								session.beginTransaction();
+								try {
+									session.merge(ffs);
+								} catch ( Exception ex ) {}
+								session.getTransaction().commit();
+								session.close();
+								
+								CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods.getInstance()
+										.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION);
+								ORIGINAL_FUNCTION_FILE_STATUS_LIST = CURRENT_FUNCTION_FILE_STATUS_LIST;
+								tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
+								
+								break;
+							}
+						}
+						
+						break;
+					}
+				}
+			}
+			
 //			co.getFunction().add(SessionSourceProvider.CURRENT_FUNCTION);
 			CURRENT_FUNCTION_FILE_LIST.add(co);
 			CURRENT_FILE_LIST_WITH_FUNCTION.add(co);
 		}
 		// if its a folder fetch children and perform same operation
 		if ( co instanceof Folder ) {
-			java.util.List<ContentObject> coList = AssignFunctionViewMethods.getInstance().getFolderChildren( (Folder)co , SessionSourceProvider.CURRENT_SNAPSHOT );
+			java.util.List<ContentObject> coList = AssignFunctionViewMethods.getInstance()
+					.getFolderChildren( (Folder)co , SessionSourceProvider.CURRENT_SNAPSHOT );
 			for ( ContentObject subCo : coList ) {
 				storeFunctionInfoInFile(subCo);
 			}
@@ -1179,15 +1258,12 @@ public class AssignFunctionsView extends ViewPart {
 	 * New drag and drop stuff
 	 */
 	
-	private void moveFileTypeToFunction() {
+	private void moveFileTypeToFunction(Object obj) {
 		// delete function! 
-		objectSelection = tableViewer.getSelection();
-		structuredSelection = (IStructuredSelection) objectSelection;
-
 		if ( !structuredSelection.isEmpty()) {
 			CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods
 					.getInstance().deleteFileFunctionStatus((FileFunctionStatus) 
-							structuredSelection.getFirstElement(), 
+							obj, 
 							CURRENT_FUNCTION_FILE_STATUS_LIST);
 			getViewSite().getActionBars().getStatusLineManager().setMessage ("item deleted");
 			
@@ -1196,7 +1272,9 @@ public class AssignFunctionsView extends ViewPart {
 					.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION);
 			ORIGINAL_FUNCTION_FILE_STATUS_LIST = CURRENT_FUNCTION_FILE_STATUS_LIST;
 			tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
+//			tableViewer.refresh();
 		}
+		
 	}
 	
 	public void moveFunctionToFileType ( String data ) {
@@ -1258,6 +1336,36 @@ public class AssignFunctionsView extends ViewPart {
 		return true;
 	}
 	
+//	@SuppressWarnings("unchecked")
+//	private void removeFromFunction ( ContentObject co, Session session ) {
+//		
+//		session.load(co, co.getObjectId());
+//		if ( co instanceof Folder ) {
+//			co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
+//			for ( ContentObject co2 : (java.util.List<ContentObject> )session.createQuery(
+//					"from ContentObject where rootDir = :mother or rootDirectory = :mother" )
+//					.setParameter("mother", co).list() ) {
+//				removeFromFunction( co2, session);
+//			}
+//		} else {
+//			co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
+//			
+//			ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
+//			
+//			coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
+//			
+//			co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
+//			session.merge(co);
+//			System.out.println("no delete");
+//			session.createQuery("delete from FileFunctionStatus where ofFile = :file " +
+//					"and ofFunction = :function")
+//					.setParameter("file", co)
+//					.setParameter("function", SessionSourceProvider.CURRENT_FUNCTION)
+//					.executeUpdate();
+//			session.getTransaction().commit();
+//		}
+//	}
+	
 	
 	public void moveFunctionToSnapshot ( String data ) {
 		Session session = gDao.getSession();
@@ -1268,16 +1376,30 @@ public class AssignFunctionsView extends ViewPart {
 			
 			if ( co.getObjectId().equals(data) ) {
 				
-				co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
+//				if ( co instanceof File ) {
+					co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
+					
+					ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
+					
+					coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
+					
+					co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
+					session.merge(co);
+					System.out.println("no delete");
+					session.createQuery("delete from FileFunctionStatus where ofFile = :file " +
+							"and ofFunction = :function")
+							.setParameter("file", co)
+							.setParameter("function", SessionSourceProvider.CURRENT_FUNCTION)
+							.executeUpdate();
+					session.getTransaction().commit();
+					break;
+//				} else if ( co instanceof Folder ) {
+//					
+//					removeFromFunction ( co, session);
+//					
+//				}
 				
-				ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
 				
-				coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
-				
-				co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
-				session.merge(co);
-				
-				break;
 			}
 			
 		}
@@ -1303,6 +1425,12 @@ public class AssignFunctionsView extends ViewPart {
 		
 		functionTreeViewer.refresh();
 		session.close();
+
+		CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods.getInstance()
+				.getFileFunctionStatus(SessionSourceProvider.CURRENT_FUNCTION);
+		ORIGINAL_FUNCTION_FILE_STATUS_LIST = CURRENT_FUNCTION_FILE_STATUS_LIST;
+		tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
+		
 	}
 	
 	

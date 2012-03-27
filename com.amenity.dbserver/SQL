@@ -37,6 +37,12 @@ delete FROM "contentobject_function"
 delete from "function"
 
 
+select * from "filefunctionstatus"
+
+select * FROM "contentobject_function"
+
+select * from "function"
+
 
 select count(*) from "filefunctionstatus" where 
 	"function_offunction_functionid" = '6c90188d-64b2-4729-bda9-b9c4d7e0b7ed'
@@ -86,7 +92,7 @@ select * from
 
 select * from "container"
 u where u."username"='uidu1448'
-update "container" set "user_owner_userid" = '32f5c2fb-4598-4092-9290-55d1e96d80ea'
+update "container" set "user_owner_userid" = 'e267d9a5-4b4b-42ed-af05-5aae5b54858e'
 select * from "user"
 select * from "connection"
 update "connection" set "connectiontype" = 'SYNERGY' where "connectiontype" = 'synergy'

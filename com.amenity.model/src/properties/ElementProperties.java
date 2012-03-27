@@ -79,7 +79,7 @@ public class ElementProperties implements IPropertySource {
 				} else {
 					PropertyDescriptor desc = new TextPropertyDescriptor ( 
 							attribute, attribute.getName() );
-					
+
 					desc.setLabelProvider(new LabelProvider() {
 						public Image getImage(Object element) {
 							return getReadWriteImage ();
@@ -313,9 +313,12 @@ public class ElementProperties implements IPropertySource {
 								DateFormat.SHORT).format((Date)element.eGet(a));
 				}
 				else if ( a.equals(id)) {
-
 					// its a String or something else entirely
-					
+					if ( a.getName().equals("password") ) {
+						// hiding passwords from properties by entering a hashcode
+						return element.eGet(a) == null ? "" : ((String)element.eGet(a)).hashCode();
+					}
+
 					return element.eGet(a) == null ? "" : element.eGet(a);
 					
 				}
