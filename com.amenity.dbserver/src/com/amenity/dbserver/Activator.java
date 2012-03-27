@@ -24,22 +24,12 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		
-		/**
-		 * TODO change back to real db location
-		 */
-		
 		// production
 		String backupRootDir = System.getenv("userprofile").replace('\\', '/') + "/temp/database";
 		String rootDir = Platform.getPreferencesService().getString( 
 				"com.amenity.workbench" , 
 				"DBFOLDER" , backupRootDir, null );
 
-//		Conti internal D:/uidu1448/Amenity\Amenity\com.amenity.workbench
-//		rootDir = "d:/uidu1448/Amenity/Amenity/com.amenity.workbench/database";
-		// Ben home
-		// C:\Users\Ben\Desktop\Arbeit\__Bachelor\amenity\New\Amenity\com.amenity.workbench\database
-//		String rootDir = System.getenv("userprofile").replace('\\', '/') + "/Desktop/Arbeit/__Bachelor/amenity/New/Amenity/Amenity/com.amenity.workbench/database";
-		
 		/*
 		 * Now check if root directory exists. If not CREATE! 
 		 * This ensures the DB is created on first use

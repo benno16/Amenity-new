@@ -1,0 +1,3 @@
+2012-03-01 06:44:49,906 [main] INFO  org.mortbay.log - Logging to Logger[org.mortbay.log] via org.mortbay.log.Slf4jLog
+2012-03-01 06:44:49,968 [main] INFO  org.mortbay.log - jetty-6.1.x
+2012-03-01 06:44:50,125 [main] INFO  org.mortbay.log - Started SocketConnector@0.0.0.0:50313
