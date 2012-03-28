@@ -22,11 +22,9 @@ Require-Bundle: org.eclipse.ui,
  com.amenity.engine;bundle-version="1.0.0",
  org.eclipse.help.ui;bundle-version="3.5.200",
  org.eclipse.help.appserver;bundle-version="3.1.400",
- org.eclipse.help.webapp;bundle-version="3.6.100",
- com.amenity.mainHelp;bundle-version="1.0.0"
+ org.eclipse.help.webapp;bundle-version="3.6.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  swing2swt.jar
-Export-Package: com.amenity.workbench.dialogs
 Import-Package: org.apache.log4j;version="1.2.13"

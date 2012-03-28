@@ -53,7 +53,6 @@ This product is developed by Continental
       <plugin id="com.amenity.dbserver"/>
       <plugin id="com.amenity.engine"/>
       <plugin id="com.amenity.framework"/>
-      <plugin id="com.amenity.mainHelp"/>
       <plugin id="com.amenity.model"/>
       <plugin id="com.amenity.workbench"/>
       <plugin id="com.ibm.icu"/>
@@ -175,7 +174,6 @@ This product is developed by Continental
       <plugin id="com.amenity.dbserver" autoStart="true" startLevel="0" />
       <plugin id="com.amenity.engine" autoStart="false" startLevel="0" />
       <plugin id="com.amenity.framework" autoStart="false" startLevel="0" />
-      <plugin id="com.amenity.mainHelp" autoStart="false" startLevel="0" />
       <plugin id="com.amenity.model" autoStart="false" startLevel="0" />
       <plugin id="com.amenity.workbench" autoStart="false" startLevel="0" />
       <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
