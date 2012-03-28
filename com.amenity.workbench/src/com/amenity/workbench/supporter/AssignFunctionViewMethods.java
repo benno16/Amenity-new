@@ -152,20 +152,6 @@ public class AssignFunctionViewMethods {
 		Session session = gDao.getSession();
 		session.beginTransaction();
 		
-
-//		select * from 
-//			( "contentobject" co inner join "contentobject_function" cf 
-//				on co."objectid" = cf."contentobject_objectid") 
-//				inner join "function" f 
-//				on f."functionid" = cf."function_functionid"
-//				where f."functionid" = 'bf46dd71-4f87-4d9b-8e96-4a5b97a9f024'
-		
-//		contentObjectsWithFunction = (List<ContentObject>) session.createSQLQuery("select * from ( \"contentobject\" co inner join \"contentobject_function\" cf " +
-//				"on co.\"objectid\" = cf.\"contentobject_objectid\" ) " +
-//				"inner join \"function\" f " +
-//				"on f.\"functionid\" = cf.\"function_functionid\" " + 
-//				"where f.\"functionid\" = '" + SessionSourceProvider.CURRENT_FUNCTION.getFunctionId() + "'" ).list();
-		
 		contentObjects = (List<ContentObject>) session.createQuery(
 				"from ContentObject contentobject where contentobject.partOf = :s")
 				.setParameter("s", SessionSourceProvider.CURRENT_SNAPSHOT)
@@ -234,7 +220,6 @@ public class AssignFunctionViewMethods {
 		
 		ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
 		
-		System.out.println("get children");
 		return coDao.getChildren(folder, snapshot);
 	}
 	
@@ -420,17 +405,16 @@ public class AssignFunctionViewMethods {
     					f = getMatchingFunction ( f, functions );
 	    				cvo.getFile1().getFunction().add(f);
     				}
-    				/*
-    				 * TODO: File Function association. This just applies for file objects
-    				 * 
-    				 */
+
     				session.clear();
     				List<FileFunctionStatus> ffss = new ArrayList<FileFunctionStatus>();
-    				ffss = session.createQuery("from " + FileFunctionStatus.class.getName().toString() +
-    						" where ofFile='" + cvo.getFile2().getObjectId() +"'").list();
+    				ffss = session.createQuery("from FileFunctionStatus " +
+    						" where ofFile = :file")
+    						.setParameter("file", cvo.getFile2())
+    						.list();
 
     				if ( ffss != null && ffss.size() > 0 ) {
-    					System.out.println("Do i get here? " + ffss.size() );
+    					
     					for ( FileFunctionStatus ffs : ffss ) {
     						FileFunctionStatus newFFS = GeneralFactory.eINSTANCE.createFileFunctionStatus();
     						

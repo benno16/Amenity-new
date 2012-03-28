@@ -419,13 +419,11 @@ public class SnapshotView extends ViewPart {
 	}
 	
 	private Image getImageIcon(String suffix) {
-		/**
-		 * TODO
-		 * this is just temporary
-		 * in future there will be an SQL query providing the below information
-		 */
+		
 		return PlatformUI.getWorkbench().getSharedImages()
 				.getImage(ISharedImages.IMG_OBJ_FILE);
+		
+		// not working with Java 1.6 - switch on Strings a new feature of Java 1.7
 //		switch (suffix.toLowerCase()) {
 //		case ("-"):
 //			return PlatformUI.getWorkbench().getSharedImages()
@@ -580,11 +578,6 @@ public class SnapshotView extends ViewPart {
 	@SuppressWarnings("unchecked")
 	private void visualizeSnapshot() {
 		
-		/**
-		 * TODO analysis if its maybe better to use JFace Tree Provider - would work easier but the design is not as pretty...
-		 * Nebula GRID 
-		 * 
-		 */
 		long start = System.currentTimeMillis();
 	
 		String query = "from " + ContentObject.class.getName().toString() + 

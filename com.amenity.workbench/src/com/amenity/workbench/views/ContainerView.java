@@ -163,11 +163,7 @@ public class ContainerView extends ViewPart {
 		list.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				/**
-				 * TODO set global var
-				 */
 				objectSelection = listViewer.getSelection();
-				
 			}
 		});
 		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {

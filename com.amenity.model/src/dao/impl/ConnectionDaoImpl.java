@@ -56,11 +56,14 @@ public class ConnectionDaoImpl extends GenericDaoImpl implements ConnectionDao {
 				"and c2.\"ownerid\" = '" + user.getUserId() + "'";
 
 		Query queryRes = session.createSQLQuery(string);
-		String resultSet = "";
+		
+		String resultSet = null;
+		
 		if ( queryRes.list().size() > 0 ) 
 			resultSet = queryRes.list().get(0).toString();
-		System.out.println("Password: " + resultSet );
+		
 		session.close();
+		
 		return resultSet;
 	}
 	

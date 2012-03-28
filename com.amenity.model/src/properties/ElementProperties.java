@@ -316,7 +316,7 @@ public class ElementProperties implements IPropertySource {
 					// its a String or something else entirely
 					if ( a.getName().equals("password") ) {
 						// hiding passwords from properties by entering a hashcode
-						return element.eGet(a) == null ? "" : ((String)element.eGet(a)).hashCode();
+						return element.eGet(a) == null ? "" : "-hidden-";
 					}
 
 					return element.eGet(a) == null ? "" : element.eGet(a);

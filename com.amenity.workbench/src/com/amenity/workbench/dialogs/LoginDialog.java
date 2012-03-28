@@ -70,7 +70,8 @@ public class LoginDialog extends Dialog {
 		super(parentShell);
 		adapter = new AdapterImpl() {
 			public void notifyChanged ( Notification notification ) {
-				System.out.println("New database Status: " + SessionSourceProvider.SESSION_STATUS.isDbStatus());
+				System.out.println("New database Status: " + 
+						SessionSourceProvider.SESSION_STATUS.isDbStatus());
 			}
 		};
 

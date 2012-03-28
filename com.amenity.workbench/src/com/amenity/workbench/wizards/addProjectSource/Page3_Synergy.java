@@ -115,9 +115,6 @@ public class Page3_Synergy extends WizardPage {
 		list.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				/**
-				 * TODO set global var
-				 */
 				projectSelection = listViewer.getSelection();
 				
 			}

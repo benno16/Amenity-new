@@ -50,17 +50,6 @@ public class SnapshotDaoImpl extends GenericDaoImpl implements SnapshotDao {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public List getListByContainer(String containerId) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public List getSnapshotsWithFunction(Object containerId) {
@@ -82,8 +71,8 @@ public class SnapshotDaoImpl extends GenericDaoImpl implements SnapshotDao {
 	 * @generated NOT
 	 * 
 	 * select * from "snapshot" s 
-	inner join "connection" c on s."connection_via_connectionid" = c."connectionid"
-	where c."container_partof_containerid" = 'c0eb818d-f530-43e9-b309-8ef1b7c81868'
+	 *	inner join "connection" c on s."connection_via_connectionid" = c."connectionid"
+	 *	where c."container_partof_containerid" = 'c0eb818d-f530-43e9-b309-8ef1b7c81868'
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Snapshot> getListByContainer(Container container) {

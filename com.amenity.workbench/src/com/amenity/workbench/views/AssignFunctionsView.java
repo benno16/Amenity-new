@@ -340,9 +340,6 @@ public class AssignFunctionsView extends ViewPart {
 			}
 		});
 		
-		/*
-		 * TODO: Testing
-		 */
 		// reviewed 14.03.2012
 		btnAdd = new Button(parent, SWT.NONE);
 		btnAdd.setToolTipText("Add new Function to List");
@@ -758,10 +755,7 @@ public class AssignFunctionsView extends ViewPart {
 			
 			@Override
 			public boolean performDrop(Object data) {
-				/*
-				 * TODO: getting content right
-				 * refreshing the snapshottreeviewer
-				 */
+
 				if ( !moveSnapshotToFunction( (String) data ) ) {
 					getViewSite().getActionBars().getStatusLineManager().setMessage ("item already in function");
 				}
@@ -844,9 +838,7 @@ public class AssignFunctionsView extends ViewPart {
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		/*
-		 * TODO: Table viewer
-		 */
+
 		tableViewer.addDropSupport(operations, transfers2, new ViewerDropAdapter(tableViewer){
 
 			@Override
@@ -990,10 +982,6 @@ public class AssignFunctionsView extends ViewPart {
 										SessionSourceProvider.CURRENT_CONTAINER) );
 						
 						if ( listDialog.open() == Dialog.OK ){
-							
-							/*
-							 * TODO: Put the relevant link to the function in here
-							 */
 							
 							// at first get the old functions and create new ones
 							functionComboViewer.setInput( CURRENT_FUNCTION_LIST =
@@ -1180,7 +1168,7 @@ public class AssignFunctionsView extends ViewPart {
 					}
 					if ( !functionAlreadyInPlace ) 
 						CURRENT_FILE_LIST.get(i).getFunction()
-						.add(SessionSourceProvider.CURRENT_FUNCTION);
+							.add(SessionSourceProvider.CURRENT_FUNCTION);
 					
 					co = CURRENT_FILE_LIST.get(i);
 					break;
@@ -1190,7 +1178,7 @@ public class AssignFunctionsView extends ViewPart {
 			}
 			
 			if ( co instanceof File ) {
-				
+				// file function status object created here
 				java.util.List<String> fileTypes = Arrays.asList(Platform
 						.getPreferencesService().getString( 
 								"com.amenity.workbench" , 
@@ -1198,6 +1186,7 @@ public class AssignFunctionsView extends ViewPart {
 								"scs,scsrm,srs,srsrm,sddrm,scrm,Lint,smts," +
 								"smtsrm,smtr,smtl,sits,sitsrm,sitl,sitr,svts,svtsrm", 
 								null ).split(","));
+				
 				java.util.List<String> fileExtns = Arrays.asList(Platform
 						.getPreferencesService().getString( 
 								"com.amenity.workbench" , 
@@ -1205,7 +1194,9 @@ public class AssignFunctionsView extends ViewPart {
 								"doc,xls,rtf,pdf,htm,html,chm,vsd,ppt,txt", null ).split(","));
 
 				for ( String extn : fileExtns ) {
-					if ( ("." + extn).equals(((File) co).getSuffix())) {
+					
+					if ( ((File) co).getSuffix().contains(extn) ) {
+						
 						for ( String type : fileTypes ) {
 
 							if ( ((File)co).getName().contains(type)) {
@@ -1219,9 +1210,15 @@ public class AssignFunctionsView extends ViewPart {
 								GenericDao gDao = DaoFactory.eINSTANCE.createGenericDao();
 								Session session = gDao.getSession();
 								session.beginTransaction();
+								
 								try {
+									/*
+									 * TODO: not working when in folder
+									 */
 									session.merge(ffs);
+									
 								} catch ( Exception ex ) {}
+								
 								session.getTransaction().commit();
 								session.close();
 								
@@ -1231,12 +1228,17 @@ public class AssignFunctionsView extends ViewPart {
 								tableViewer.setInput(CURRENT_FUNCTION_FILE_STATUS_LIST);
 								
 								break;
+								
 							}
+							
 						}
 						
 						break;
+						
 					}
+					
 				}
+				
 			}
 			
 //			co.getFunction().add(SessionSourceProvider.CURRENT_FUNCTION);
@@ -1327,44 +1329,59 @@ public class AssignFunctionsView extends ViewPart {
 					"Information", "Please select or create a function first");
 			return true;
 		}
+		
 		AssignFunctionViewFilters.getInstance().setUndefinedItem();
 		
-
 		btnSave.setEnabled(true);
 		btnSave.setText("Apply *");
 		
 		return true;
 	}
 	
-//	@SuppressWarnings("unchecked")
-//	private void removeFromFunction ( ContentObject co, Session session ) {
-//		
-//		session.load(co, co.getObjectId());
-//		if ( co instanceof Folder ) {
-//			co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
-//			for ( ContentObject co2 : (java.util.List<ContentObject> )session.createQuery(
-//					"from ContentObject where rootDir = :mother or rootDirectory = :mother" )
-//					.setParameter("mother", co).list() ) {
-//				removeFromFunction( co2, session);
-//			}
-//		} else {
-//			co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
-//			
-//			ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
-//			
-//			coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
-//			
-//			co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
-//			session.merge(co);
-//			System.out.println("no delete");
-//			session.createQuery("delete from FileFunctionStatus where ofFile = :file " +
-//					"and ofFunction = :function")
-//					.setParameter("file", co)
-//					.setParameter("function", SessionSourceProvider.CURRENT_FUNCTION)
-//					.executeUpdate();
-//			session.getTransaction().commit();
-//		}
-//	}
+	@SuppressWarnings("unchecked")
+	private void removeFromFunction ( ContentObject co, Session session ) {
+		
+		if ( co instanceof File ) {
+			co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
+			
+			session.createSQLQuery("delete from \"contentobject_function\" " +
+					"where \"contentobject_objectid\"='"
+					+ co.getObjectId() + "' and \"function_functionid\" = '" 
+					+ SessionSourceProvider.CURRENT_FUNCTION.getFunctionId() + "'").executeUpdate();
+
+
+			session.createQuery("delete from FileFunctionStatus where ofFile = :file " +
+					"and ofFunction = :function")
+					.setParameter("file", co)
+					.setParameter("function", SessionSourceProvider.CURRENT_FUNCTION)
+					.executeUpdate();
+			try {
+				session.getTransaction().commit();
+				session.beginTransaction();
+			} catch (Exception e){}
+			
+		} else if ( co instanceof Folder ) {
+			java.util.List<ContentObject> cos = session.createQuery("from ContentObject " +
+					"where rootDir = :directory or " +
+					"rootDirectory = :directory")
+					.setParameter("directory", co)
+					.list();
+			
+			session.createSQLQuery("delete from \"contentobject_function\" " +
+					"where \"contentobject_objectid\"='"
+					+ co.getObjectId() + "' and \"function_functionid\" = '" 
+					+ SessionSourceProvider.CURRENT_FUNCTION.getFunctionId() + "'").executeUpdate();
+
+			try {
+				session.getTransaction().commit();
+				session.beginTransaction();
+			} catch (Exception e){}
+			
+			for ( ContentObject coInner : cos ) 
+				removeFromFunction ( coInner, session);
+			
+		}
+	}
 	
 	
 	public void moveFunctionToSnapshot ( String data ) {
@@ -1376,29 +1393,8 @@ public class AssignFunctionsView extends ViewPart {
 			
 			if ( co.getObjectId().equals(data) ) {
 				
-//				if ( co instanceof File ) {
-					co = AssignFunctionViewMethods.getInstance().getContentObject(session, co);
-					
-					ContentObjectDao coDao = DaoFactory.eINSTANCE.createContentObjectDao();
-					
-					coDao.deleteFunctionFromCo(SessionSourceProvider.CURRENT_FUNCTION, co);
-					
-					co.getFunction().remove(SessionSourceProvider.CURRENT_FUNCTION);
-					session.merge(co);
-					System.out.println("no delete");
-					session.createQuery("delete from FileFunctionStatus where ofFile = :file " +
-							"and ofFunction = :function")
-							.setParameter("file", co)
-							.setParameter("function", SessionSourceProvider.CURRENT_FUNCTION)
-							.executeUpdate();
-					session.getTransaction().commit();
-					break;
-//				} else if ( co instanceof Folder ) {
-//					
-//					removeFromFunction ( co, session);
-//					
-//				}
-				
+				removeFromFunction(co, session);
+				break;
 				
 			}
 			
@@ -1424,6 +1420,7 @@ public class AssignFunctionsView extends ViewPart {
 		functionTreeViewer.setInput(CURRENT_FUNCTION_FILE_LIST);
 		
 		functionTreeViewer.refresh();
+		session.getTransaction().commit();
 		session.close();
 
 		CURRENT_FUNCTION_FILE_STATUS_LIST = AssignFunctionViewMethods.getInstance()

@@ -40,9 +40,7 @@ public class ConnectionTreeContentProvider implements ITreeContentProvider {
 		if ( parentElement instanceof Connection ) {
 			Connection connection = (Connection) parentElement;
 			SnapshotDao snapshotDao = DaoFactory.eINSTANCE.createSnapshotDao();
-			/**
-			 * TODO: Implement VIA! (HIGH Priority)
-			 */
+
 			List<Snapshot> snapshots = (List<Snapshot>) 
 					snapshotDao.getByQuery("from " + Snapshot.class.getName().toString() + 
 							" where via = '" + connection.getConnectionId() + "' and deleted = false" );

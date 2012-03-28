@@ -31,8 +31,6 @@ public class SynergyReader {
 	private List<File> files;
 	private FolderDao folderDao;
 	private FileDao fileDao;
-//	private String ccmHomeFolder = "D:/temp/Synergy_client7103";
-//	private String ccmEXEFolder = "D:/temp/Synergy_client7103/bin/ccm";
 
 	private String ccmEXEFolder = Platform.getPreferencesService().getString( 
 			"com.amenity.workbench" , 
@@ -67,10 +65,12 @@ public class SynergyReader {
 		else 
 			return false;
 	}
+	
 	private void generateContentObject( String directoryName, String projectName, Folder root ) {
-		
+		ProcessBuilder pb = null;
+		Process pr =null;
 		try {
-			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", 
+			pb = new ProcessBuilder("cmd", "/c", 
 					ccmEXEFolder,
 					"query",
 					"-u",
@@ -89,19 +89,20 @@ public class SynergyReader {
 			env.put("CCM_HOME", ccmHomeFolder);
 			env.put("CCM_INI_FILE", ccmIniFile );
 			env.put("CCM_ADDR", sessionID);
-			env.put("PATH", "D:\\ts_mirr\\etoolset\\cw70d;" +
-					"M:\\pmtqtools\\Synergy71\\Synergy_client7105\\bin;" +
-					"M:\\pmtqtools\\Synergy71\\Synergy_client7105\\bin\\util;" +
-					"M:\\pmtqtools\\ccmscripts1015;" +
-					"M:\\pmtqtools\\ccmscripts1015\\perl\\bin;" +
-					"M:\\pmtqtools\\ccmscripts1015\\cygwin\\bin;" +
-					"C:\\Program Files\\Microsoft Office\\Office;" +
-					"M:\\pmtqtools\\ts_ref\\STM_RiMC\\STMTS\\v8.5;%PATH%");
+//			env.put("PATH", "D:\\ts_mirr\\etoolset\\cw70d;" +
+//					"M:\\pmtqtools\\Synergy71\\Synergy_client7105\\bin;" +
+//					"M:\\pmtqtools\\Synergy71\\Synergy_client7105\\bin\\util;" +
+//					"M:\\pmtqtools\\ccmscripts1015;" +
+//					"M:\\pmtqtools\\ccmscripts1015\\perl\\bin;" +
+//					"M:\\pmtqtools\\ccmscripts1015\\cygwin\\bin;" +
+//					"C:\\Program Files\\Microsoft Office\\Office;" +
+//					"M:\\pmtqtools\\ts_ref\\STM_RiMC\\STMTS\\v8.5;%PATH%");
 
-			Process pr = pb.start();
+			pr = pb.start();
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 			String resultset = null;
+			
 			// run through the resultset
 //			if ( root == null ) {
 //				Folder folder = GeneralFactory.eINSTANCE.createFolder();
@@ -111,57 +112,62 @@ public class SynergyReader {
 //				folders.add(folder);
 //				root = folder;
 //			}
+
 			while (( resultset = br.readLine()) != null ){
-
+				
 				// Create Folder Object
-				String[] rsArray = resultset.split("#");
-				
-				String objectName = rsArray[0].toString().trim();
-				String type = rsArray[1].toString().trim();
-//				String displayName = rsArray[2].toString().trim();
-				Date modifyTime = getFileDate(rsArray[3].toString().trim());
-				String version = rsArray[4].toString().trim();
-				String status = rsArray[5].toString().trim();
-				String release = rsArray[6].toString().trim();
-				String name = rsArray[7].toString().trim();
-				
-				
-				if ( type.equalsIgnoreCase("dir") ) {
-					// its a folder
-					Folder folder = GeneralFactory.eINSTANCE.createFolder();
-					folder.setLevel(( root == null ) ? 1 : root.getLevel()+1);
-					folder.setName(name);
-					folder.setVersion(version);
-					folder.setModfiedDate(modifyTime);
-					folder.setFullName(objectName);
-					folder.setPartOf(snapshot);
-					folder.setRootDirectory(root);
-					folder.setRelease(release);
-					
-				    folders.add(folder);
-				    
-				    generateContentObject(folder.getFullName(), projectName, folder);
-				} else { 
-					// its a file
-					File file = GeneralFactory.eINSTANCE.createFile();
-					file.setLevel(root.getLevel()+1);
-					file.setName(name);
-					file.setVersion(version);
-					file.setModfiedDate(modifyTime);
-					file.setFullName(objectName);
-					file.setObjectName(objectName);
-					file.setPartOf(snapshot);
-					file.setRootDir(root);
-					file.setStatus(status);
-					file.setSuffix(getFileSuffix(name));
-					file.setRelease(release);
-					files.add(file);
-				}
+				String[] rsArray =  resultset.split("#");
 
+					String objectName = rsArray[0].toString().trim();
+					String type = rsArray[1].toString().trim();
+//					String displayName = rsArray[2].toString().trim();
+					Date modifyTime = getFileDate(rsArray[3].toString().trim());
+					String version = rsArray[4].toString().trim();
+					String status = rsArray[5].toString().trim();
+					String release = rsArray[6].toString().trim();
+					String name = rsArray[7].toString().trim();
+
+					System.out.println(resultset);
+					
+					if ( type.equalsIgnoreCase("dir") ) {
+						// its a folder
+						Folder folder = GeneralFactory.eINSTANCE.createFolder();
+						folder.setLevel(( root == null ) ? 1 : root.getLevel()+1);
+						folder.setName(name);
+						folder.setVersion(version);
+						folder.setModfiedDate(modifyTime);
+						folder.setFullName(objectName);
+						folder.setPartOf(snapshot);
+						folder.setRootDirectory(root);
+						folder.setRelease(release);
+						
+					    folders.add(folder);
+					    
+					    generateContentObject(folder.getFullName(), projectName, folder);
+					    
+					} else { 
+						// its a file
+						File file = GeneralFactory.eINSTANCE.createFile();
+						file.setLevel(root.getLevel()+1);
+						file.setName(name);
+						file.setVersion(version);
+						file.setModfiedDate(modifyTime);
+						file.setFullName(objectName);
+						file.setObjectName(objectName);
+						file.setPartOf(snapshot);
+						file.setRootDir(root);
+						file.setStatus(status);
+						file.setSuffix(getFileSuffix(name));
+						file.setRelease(release);
+						files.add(file);
+					}
 			}
-		
-		} catch (Exception ex ){
-			System.out.println(ex.getMessage());
+		}  catch (ArrayIndexOutOfBoundsException aiobx ) {
+			
+		}catch (Exception ex ){
+			ex.printStackTrace();
+			System.out.println(" >> Exception " + ex.getMessage());
+			pr.destroy();
 		}
 	}
 	

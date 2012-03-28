@@ -149,12 +149,25 @@ public class Page1 extends WizardPage {
 						protected IStatus run(IProgressMonitor monitor) {
 							// start progressbar
 							job2.schedule();
-							try {
-								Thread.sleep(500);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							fetchMetaInformation(current_connection);
+//							try {
+//								Thread.sleep(500);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
+//							fetchMetaInformation(current_connection);
+							
+							
+							
+							
+							
+							readData();
+							
+							
+							
+							
+							
+							
+							
 							
 							// inform about finish status
 							job3.schedule();
@@ -263,30 +276,29 @@ public class Page1 extends WizardPage {
 	
 	protected boolean fetchMetaInformation( Connection connection ) {
 
-		
 		if ( current_connection.getConnectionType() == ConnectionType.MKS) {
+			
 			MksReader mksReader = new MksReader( current_connection, 
 					SessionSourceProvider.CURRENT_SNAPSHOT );
 			if ( current_connection.getAddInfo4().equals("Sandbox"))
 				mksReader.getSandboxFiles();
 			else
 				mksReader.getProjectFiles();
+			
 		} else if ( current_connection.getConnectionType() == ConnectionType.SYNERGY ) {
+			
 			if ( SessionSourceProvider.SYNERGY_SID == null ) {
 				SessionSourceProvider.SYNERGY_SID = new SynergyLogin().getSynergySessionId();
 			}
+			
 			System.out.println("Its a sgy session " + SessionSourceProvider.SYNERGY_SID);
+			
 			SynergyReader synergyReader = new SynergyReader (SessionSourceProvider.SYNERGY_SID,
 					current_connection, SessionSourceProvider.CURRENT_SNAPSHOT );
+			
 			synergyReader.getProjectFiles();
+			
 		}
-		/**
-		 * TODO: Fix the below problem...
-		 */
-//		SessionSourceProvider.CURRENT_SNAPSHOT.setVia(current_connection);
-//		SnapshotDao snapshotDao = DaoFactory.eINSTANCE.createSnapshotDao();
-//		snapshotDao.update(SessionSourceProvider.CURRENT_SNAPSHOT);
-		
 		return true;
 	}
 
@@ -316,9 +328,20 @@ public class Page1 extends WizardPage {
 
 	
 	private void startProgressBar() {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				
+				progressBar.setVisible(true);
+				progressBar.setState(SWT.NORMAL);
+				
+			}
+		});
+	}
+	
+	private void readData() {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+
 
 				snapshot.setCreated(new Date());
 				snapshot.setName(text_name.getText().length() < 1 ? "-" : text_name.getText() );
@@ -329,15 +352,36 @@ public class Page1 extends WizardPage {
 				SessionSourceProvider.CURRENT_SNAPSHOT = snapshot;
 				btnCreate.setEnabled(false);
 				
-				progressBar.setVisible(true);
-				progressBar.setState(SWT.NORMAL);
+				if ( current_connection.getConnectionType() == ConnectionType.MKS) {
+					
+					MksReader mksReader = new MksReader( current_connection, 
+							SessionSourceProvider.CURRENT_SNAPSHOT );
+					if ( current_connection.getAddInfo4().equals("Sandbox"))
+						mksReader.getSandboxFiles();
+					else
+						mksReader.getProjectFiles();
+					
+				} else if ( current_connection.getConnectionType() == ConnectionType.SYNERGY ) {
+					
+					if ( SessionSourceProvider.SYNERGY_SID == null ) {
+						SessionSourceProvider.SYNERGY_SID = new SynergyLogin().getSynergySessionId();
+					}
+					
+					System.out.println("Its a sgy session " + SessionSourceProvider.SYNERGY_SID);
+					
+					SynergyReader synergyReader = new SynergyReader (SessionSourceProvider.SYNERGY_SID,
+							current_connection, SessionSourceProvider.CURRENT_SNAPSHOT );
+					
+					synergyReader.getProjectFiles();
+					
+				}
 				
 			}
 		});
 	}
 	
 	private void stopProgressBar() {
-		Display.getDefault().asyncExec(new Runnable() {
+		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				
 				progressBar.setState(SWT.PAUSED);

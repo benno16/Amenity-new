@@ -223,10 +223,8 @@ public class CompareSnapshotsView extends ViewPart {
 	    
 	    grid.addMouseListener(new MouseAdapter() {
 
-	    	/**
-	    	 * TODO
-	    	 * Implement a connection selection to identify what open
-	    	 * method has to be called
+	    	/*
+	    	 * TODO: Compare Method for Snyergy
 	    	 * 
 	    	 */
 			@Override

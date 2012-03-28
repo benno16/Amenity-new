@@ -46,7 +46,8 @@ select * from "function"
 
 select count(*) from "filefunctionstatus" where 
 	"function_offunction_functionid" = '6c90188d-64b2-4729-bda9-b9c4d7e0b7ed'
-select * from "connection"
+
+	select * from "connection"
 select * from "container"
 insert into "filefunctionstatus" ( "filefunctionstatusid", "function_offunction_functionid", 
 	"file_offile_objectid", "dtype", "E_VERSION" ) values 

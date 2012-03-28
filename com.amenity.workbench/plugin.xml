@@ -107,24 +107,10 @@
       </view>
       <view
             category="com.amenity.workbench.views.CategoryAmenity"
-            class="com.amenity.workbench.views.SetStatsView"
-            icon="icons/workbench/general/up.png"
-            id="com.amenity.workbench.views.SetStatsView"
-            name="Set Status"
-            restorable="true">
-      </view>
-      <view
-            category="com.amenity.workbench.views.CategoryAmenity"
             class="com.amenity.workbench.views.EventLogView"
             icon="icons/workbench/general/events.png"
             id="com.amenity.workbench.views.EventLogView"
             name="Event Log"
-            restorable="true">
-      </view>
-      <view
-            class="com.amenity.workbench.ViewSnapshot"
-            id="com.amenity.workbench.ViewSnapshot"
-            name="View Snapshot"
             restorable="true">
       </view>
       <category
@@ -410,21 +396,6 @@
                   tooltip="&amp;Open Startup Perspective">
             </command>
             <command
-                  commandId="com.amenity.workbench.temp.Dao"
-                  icon="icons/workbench/general/dialog-warning.png"
-                  label="&amp;DAO Test"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="activeWorkbenchWindow.activePerspective">
-                     <equals
-                           value="DUMMYNOT SHOWING">
-                     </equals>
-                  </with>
-               </visibleWhen>
-            </command>
-            <command
                   commandId="org.eclipse.ui.file.exit"
                   icon="icons/workbench/general/exit.png"
                   label="&amp;Exit"
@@ -552,16 +523,6 @@
       <command
             id="org.eclipse.ui.window.preferences"
             name="Settings">
-      </command>
-      <command
-            defaultHandler="com.amenity.workbench.temp.Dao"
-            id="com.amenity.workbench.temp.Dao"
-            name="Dao">
-      </command>
-      <command
-            defaultHandler="com.amenity.workbench.temp.Logon"
-            id="com.amenity.workbench.temp.Logon"
-            name="&amp;Logon">
       </command>
       <command
             defaultHandler="com.amenity.workbench.wizards.addSnapshot.SnapshotWizardCommand"

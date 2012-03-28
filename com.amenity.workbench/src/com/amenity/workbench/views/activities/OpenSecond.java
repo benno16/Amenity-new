@@ -15,7 +15,6 @@ public class OpenSecond  extends AbstractHandler {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				.openPage("com.amenity.workbench.StartupPerspective", null);
 		} catch (WorkbenchException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

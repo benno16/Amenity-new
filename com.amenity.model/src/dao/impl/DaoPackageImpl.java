@@ -663,7 +663,7 @@ public class DaoPackageImpl extends EPackageImpl implements DaoPackage {
 		initEClass(snapshotDaoEClass, SnapshotDao.class, "SnapshotDao", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		op = addEOperation(snapshotDaoEClass, this.getList(), "getListByContainer", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "containerId", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getContainer(), "container", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(snapshotDaoEClass, this.getList(), "getSnapshotsWithFunction", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEJavaObject(), "containerId", 0, 1, IS_UNIQUE, IS_ORDERED);

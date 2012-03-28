@@ -250,8 +250,7 @@ public class SnapshotComparator {
 						
 					} else {
 						/*
-						 * TODO
-						 * nicer messages
+						 * TODO nicer messages
 						 */
 						System.out.println("an error occured");
 						continue;
@@ -275,10 +274,6 @@ public class SnapshotComparator {
 				}
 			} 
 
-				/*
-				 * TODO: change temp to perm
-				 */
-				
 				else 
 				if ( cvfo.getFolder2() != null &&
 						cvfo.getFolder1() == null ) {
@@ -323,8 +318,7 @@ public class SnapshotComparator {
 							
 						} else {
 							/*
-							 * TODO
-							 * nicer messages
+							 * TODO: nicer messages
 							 */
 							System.out.println("an error occured");
 							continue;
@@ -412,8 +406,7 @@ public class SnapshotComparator {
 						
 					} else {
 						/*
-						 * TODO
-						 * nicer messages
+						 * TODO: nicer messages
 						 */
 						System.out.println("an error occured");
 						continue;
@@ -441,11 +434,6 @@ public class SnapshotComparator {
 				}
 				}
 				
-				/**
-				 * TEMP
-				 * TODO: CLEAR TABLE!!! 
-				 * Configuration missing due to new Label Provider! 
-				 */
 				if ( cvfo.getFile2() != null &&
 						cvfo.getFile1() == null) {
 					if ( cvfo.getFile2().getLevel() == i  ) { //|| cvfo.getFile1().getLevel() == i ) {
@@ -488,8 +476,7 @@ public class SnapshotComparator {
 							
 						} else {
 							/*
-							 * TODO
-							 * nicer messages
+							 * TODO: nicer messages
 							 */
 							System.out.println("an error occured");
 							continue;
@@ -552,9 +539,6 @@ public class SnapshotComparator {
 		gridItem.setBackground(7, new Color(Display.getCurrent(), r, g, b));
 		gridItem.setBackground(8, new Color(Display.getCurrent(), r, g, b));
 		
-		/*
-		 * TODO: check if required or not
-		 */
 		return gridItem;
 	}
 	

@@ -95,7 +95,7 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Container" instanceClassName="general.Container"/>
   <eClassifiers xsi:type="ecore:EClass" name="SnapshotDao" eSuperTypes="#//GenericDao">
     <eOperations name="getListByContainer" eType="#//List">
-      <eParameters name="containerId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="container" eType="#//Container"/>
     </eOperations>
     <eOperations name="getSnapshotsWithFunction" eType="#//List">
       <eParameters name="containerId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>

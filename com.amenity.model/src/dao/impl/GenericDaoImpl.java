@@ -111,8 +111,6 @@ public class GenericDaoImpl extends EObjectImpl implements GenericDao {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
-	 * TODO
-	 * I modified the session creation return session=!
 	 */
 	public Session getSession() {
 		if ( HibernateUtilImpl.getSessionFactoryEdefault() == null ){
@@ -124,17 +122,11 @@ public class GenericDaoImpl extends EObjectImpl implements GenericDao {
 		}
 		else if ( session != null && session.isOpen() ){
 			System.out.println("--- session is open --- ");
-//			return session;
 			session.close();
 		} 
 		return session = HibernateUtilImpl
 				.getSessionFactoryEdefault().openSession(); 
-//		if ( session == null ) {
-//			System.out.println("first session ");
-//			return session = HibernateUtilImpl.getSessionFactoryEdefault().openSession();
-//		} else 
-//			return session;
-			
+		
 	}
 
 	/**

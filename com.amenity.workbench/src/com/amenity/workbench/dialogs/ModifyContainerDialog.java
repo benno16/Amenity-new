@@ -30,7 +30,13 @@ public class ModifyContainerDialog extends Dialog {
 		super(parentShell);
 		parentShell.setText("Modify Container Name");
 	}
-	
+
+	@Override
+	protected void configureShell(Shell shell) {
+	      super.configureShell(shell);
+	      shell.setText("Modify Container Name");
+	}
+
 
 	/**
 	 * Create contents of the dialog.
