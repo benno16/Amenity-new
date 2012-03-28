@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MainHelp
+Bundle-SymbolicName: com.amenity.mainHelp; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: AMENITY
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

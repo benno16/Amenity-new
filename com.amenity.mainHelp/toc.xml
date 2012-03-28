@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Amenity Help" topic="html/toc.html">
+   <topic label="First Steps">
+      <anchor id="gettingstarted"/>
+   </topic>
+</toc>
