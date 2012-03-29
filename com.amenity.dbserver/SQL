@@ -43,6 +43,8 @@ select * FROM "contentobject_function"
 
 select * from "function"
 
+update "container" set "deleted" = false
+
 
 select count(*) from "filefunctionstatus" where 
 	"function_offunction_functionid" = '6c90188d-64b2-4729-bda9-b9c4d7e0b7ed'

@@ -110,12 +110,14 @@ public class Page1 extends WizardPage {
 		combo.setBounds(116, 62, 448, 23);
 		if ( containers.size() < 1 ) {
 			combo.setEnabled(false);
+			setPageComplete ( false );
 			
 		} else {
 			combo.setEnabled(true);
 			for ( Container c : containers ) 
 				combo.add(c.getName());
 			combo.select(0);
+			setPageComplete ( true );
 		}
 		
 		Label lblContainer = new Label(container, SWT.NONE);
@@ -147,7 +149,7 @@ public class Page1 extends WizardPage {
 		Label label_1 = new Label(container, SWT.NONE);
 		label_1.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/server.png"));
 		label_1.setBounds(10, 10, 16, 16);
-		setPageComplete ( false );
+//		setPageComplete ( false );
 	}
 	
 	

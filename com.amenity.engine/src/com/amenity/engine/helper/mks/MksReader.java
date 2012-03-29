@@ -625,11 +625,18 @@ public class MksReader {
 		 * => 11
 		 */
 		int projectLength = 10;
-		if ( rootName != null ) {
+		if ( rootName != null && !rootName.equals(projectName)) {
+			
 			String rootShortName = rootName.substring(0, 
 					rootName.length() - projectLength);
-			return projectName.substring(rootShortName.length(), 
-					projectName.length() - projectLength);
+			
+			try {
+				return projectName.substring(rootShortName.length(), 
+						projectName.length() - projectLength);
+			} catch (StringIndexOutOfBoundsException se) {
+				return projectName.substring(0, 
+						projectName.length() - projectLength);
+			}
 		}
 		return projectName.substring(0, 
 				projectName.length() - projectLength);

@@ -28,7 +28,7 @@ public class ModifyContainerDialog extends Dialog {
 	 */
 	public ModifyContainerDialog(Shell parentShell) {
 		super(parentShell);
-		parentShell.setText("Modify Container Name");
+//		parentShell.setText("Modify Container Name");
 	}
 
 	@Override

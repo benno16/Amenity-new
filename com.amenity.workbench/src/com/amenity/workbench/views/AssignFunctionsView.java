@@ -182,6 +182,11 @@ public class AssignFunctionsView extends ViewPart {
 				try {
 					containerCombo.setText(SessionSourceProvider.CURRENT_CONTAINER.getName());
 				} catch (NullPointerException npe ) {}
+				
+
+				ContainerDao cDao = DaoFactory.eINSTANCE.createContainerDao();
+				cDao.setOwner(SessionSourceProvider.USER);
+				
 			}
 		});
 		
@@ -363,7 +368,9 @@ public class AssignFunctionsView extends ViewPart {
 						SessionSourceProvider.CURRENT_FUNCTION = AssignFunctionViewMethods.getInstance().addFunction(function);
 						// add function object to list
 						CURRENT_FUNCTION_LIST.add(SessionSourceProvider.CURRENT_FUNCTION);
-						functionNameText.setText(SessionSourceProvider.CURRENT_FUNCTION.getName());
+						try {
+							functionNameText.setText(SessionSourceProvider.CURRENT_FUNCTION.getName());
+						} catch ( Exception ex ) {}
 						lblDate.setText(SessionSourceProvider.CURRENT_FUNCTION.getModified().toString());
 						// add to combobox and refresh it
 						functionComboViewer.setInput(CURRENT_FUNCTION_LIST);
@@ -1195,11 +1202,11 @@ public class AssignFunctionsView extends ViewPart {
 
 				for ( String extn : fileExtns ) {
 					
-					if ( ((File) co).getSuffix().contains(extn) ) {
+					if ( ((File) co).getSuffix().toLowerCase().contains(extn.toLowerCase()) ) {
 						
 						for ( String type : fileTypes ) {
 
-							if ( ((File)co).getName().contains(type)) {
+							if ( ((File)co).getName().toLowerCase().contains(type.toLowerCase())) {
 								
 								// Add it to FFS
 								System.out.println("I found a match");
@@ -1210,11 +1217,15 @@ public class AssignFunctionsView extends ViewPart {
 								GenericDao gDao = DaoFactory.eINSTANCE.createGenericDao();
 								Session session = gDao.getSession();
 								session.beginTransaction();
-								
+								SessionSourceProvider.CURRENT_SNAPSHOT = 
+										(Snapshot) session.createQuery("from Snapshot where snapshotId = '"
+												+ SessionSourceProvider.CURRENT_SNAPSHOT.getSnapshotId() +
+												"'").list().get(0);
 								try {
 									/*
 									 * TODO: not working when in folder
 									 */
+//									session.save(ffs);
 									session.merge(ffs);
 									
 								} catch ( Exception ex ) {}

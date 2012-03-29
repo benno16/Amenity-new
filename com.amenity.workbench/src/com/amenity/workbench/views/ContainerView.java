@@ -64,7 +64,6 @@ public class ContainerView extends ViewPart {
 	@SuppressWarnings("unused")
 	private Composite parent;
 	private Button btnDelete;
-	private Button btnModify;
 	private Button btnCreate;
 	private ListViewer listViewer;
 	private ISelection objectSelection;
@@ -192,24 +191,67 @@ public class ContainerView extends ViewPart {
 		listViewer.setInput(SessionSourceProvider.CONTAINER_LIST);
 		getSite().setSelectionProvider(listViewer);
 		
-		btnModify = new Button(parent, SWT.NONE);
-		btnModify.setToolTipText("Modify the selected Container");
-		btnModify.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		btnModify.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/database_edit.png"));
-		btnModify.setText("Modify");
+		Menu menu_1 = new Menu(list);
+		list.setMenu(menu_1);
 		
-		btnModify.addSelectionListener(new SelectionAdapter() {
+		MenuItem mntmCreateContainer = new MenuItem(menu_1, SWT.NONE);
+		mntmCreateContainer.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected ( SelectionEvent e ) {
+			public void widgetSelected(SelectionEvent e) {
+				ContainerWizard wizard = new ContainerWizard();
+				WizardDialog dialog = new WizardDialog ( parent.getShell(), wizard );
+				dialog.open();
+				enableButtons();
+			}
+		});
+		mntmCreateContainer.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/folder_new.png"));
+		mntmCreateContainer.setText("Create Container");
+		
+		MenuItem mntmModifyContainer = new MenuItem(menu_1, SWT.NONE);
+		mntmModifyContainer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
 				ModifyContainerDialog dialog = new ModifyContainerDialog ( parent.getShell()); 
 				if ( dialog.open() == Window.OK) {
 					containerDao.update(SessionSourceProvider.CURRENT_CONTAINER);
 					containerDao.setOwner(SessionSourceProvider.USER);
 					refreshContainerList();
 				}
-				
 			}
 		});
+		mntmModifyContainer.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/database_edit.png"));
+		mntmModifyContainer.setText("Modify Container");
+		
+		new MenuItem(menu_1, SWT.SEPARATOR);
+		
+		MenuItem mntmDeleteContainer = new MenuItem(menu_1, SWT.NONE);
+		mntmDeleteContainer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MessageDialog msg = new MessageDialog ( parent.getShell(), 
+						"Warning", null, 
+						"Are you sure you want to delete the CONTAINER '" 
+						+ SessionSourceProvider.CURRENT_CONTAINER.getName() + "'? \n" +
+						"This operation cannot be reversed!", 
+						MessageDialog.ERROR, 
+						new String[] {"Delete", "Keep"}, 1);
+				if ( msg.open() == 0 ) {
+					Container c = null;
+					for ( Iterator<Container> iter = SessionSourceProvider.CONTAINER_LIST.iterator(); iter.hasNext(); ) {
+						c = iter.next();
+						if ( c.equals(SessionSourceProvider.CURRENT_CONTAINER )) {
+							iter.remove();
+							SessionSourceProvider.CURRENT_CONTAINER = null;
+							break;
+						}
+					}
+					containerDao.delete(c);
+				}
+				enableButtons();
+			}
+		});
+		mntmDeleteContainer.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/gtk-cancel.png"));
+		mntmDeleteContainer.setText("Delete Container");
 		
 		btnCreate = new Button(parent, SWT.NONE);
 		btnCreate.setToolTipText("Create a new Container");
@@ -231,9 +273,9 @@ public class ContainerView extends ViewPart {
 		// Delete Button
 		btnDelete = new Button(parent, SWT.NONE);
 		btnDelete.setToolTipText("Delete the selected Container");
-		btnDelete.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		btnDelete.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		btnDelete.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/gtk-cancel.png"));
-		btnDelete.setText("Delete");
+		btnDelete.setText("Delete Container");
 		btnDelete.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -259,6 +301,9 @@ public class ContainerView extends ViewPart {
 				enableButtons();
 			}
 		});
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
 		new Label(parent, SWT.NONE);
@@ -326,6 +371,8 @@ public class ContainerView extends ViewPart {
 			
 		});
 		
+		new MenuItem(menu, SWT.SEPARATOR);
+		
 		mntmDeleteSelectedItem = new MenuItem(menu, SWT.NONE);
 		mntmDeleteSelectedItem.setImage(ResourceManager.getPluginImage("com.amenity.workbench", "icons/workbench/general/gtk-cancel.png"));
 		mntmDeleteSelectedItem.setText("Delete Selected Item");
@@ -390,9 +437,6 @@ public class ContainerView extends ViewPart {
 				}
 			}
 		});
-		new Label(parent, SWT.NONE);
-		new Label(parent, SWT.NONE);
-		new Label(parent, SWT.NONE);
 		
 		mntmDeleteSelectedItem.setEnabled(false);
 
@@ -423,13 +467,7 @@ public class ContainerView extends ViewPart {
 	
 	private void enableButtons() {
 
-		if ( SessionSourceProvider.CONTAINER_LIST.size() < 1 ) {
-			btnModify.setEnabled(false);
-			btnDelete.setEnabled(false);
-		} else {
-			btnModify.setEnabled(true);
-			btnDelete.setEnabled(true);
-		}
+		btnDelete.setEnabled(!(SessionSourceProvider.CONTAINER_LIST.size() < 1));
 		refreshContainerList();
 	}
 }

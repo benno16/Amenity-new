@@ -8,6 +8,9 @@ import general.Snapshot;
 
 import java.util.Date;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -65,6 +68,7 @@ public class Page1 extends WizardPage {
 	private Job job;
 	private Job job2;
 	private Job job3;
+	private Logger log;
 	
 	/**
 	 * Create the wizard.
@@ -74,6 +78,8 @@ public class Page1 extends WizardPage {
 		setTitle("New Snapshot Wizard");
 		setMessage("Select your container, connection and name and hit create", INFORMATION);
 		snapshot = GeneralFactory.eINSTANCE.createSnapshot();
+		log = LogManager.getLogger(SnapshotWizard.class);
+		PropertyConfigurator.configure(SessionSourceProvider.LOG4J_PROPERTIES);
 	}
 
 	/**
@@ -149,11 +155,12 @@ public class Page1 extends WizardPage {
 						protected IStatus run(IProgressMonitor monitor) {
 							// start progressbar
 							job2.schedule();
-//							try {
-//								Thread.sleep(500);
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
+							// wait for snapshot creation
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
 //							fetchMetaInformation(current_connection);
 							
 							
@@ -161,13 +168,6 @@ public class Page1 extends WizardPage {
 							
 							
 							readData();
-							
-							
-							
-							
-							
-							
-							
 							
 							// inform about finish status
 							job3.schedule();
@@ -291,7 +291,7 @@ public class Page1 extends WizardPage {
 				SessionSourceProvider.SYNERGY_SID = new SynergyLogin().getSynergySessionId();
 			}
 			
-			System.out.println("Its a sgy session " + SessionSourceProvider.SYNERGY_SID);
+			log.info("Its a sgy session " + SessionSourceProvider.SYNERGY_SID);
 			
 			SynergyReader synergyReader = new SynergyReader (SessionSourceProvider.SYNERGY_SID,
 					current_connection, SessionSourceProvider.CURRENT_SNAPSHOT );
@@ -310,7 +310,7 @@ public class Page1 extends WizardPage {
 
 		} else {
 			setMessage("No container selected", ERROR);
-			System.out.println("No container selected");
+			log.error("No container selected#1");
 		}
 	}
 
@@ -330,18 +330,6 @@ public class Page1 extends WizardPage {
 	private void startProgressBar() {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				
-				progressBar.setVisible(true);
-				progressBar.setState(SWT.NORMAL);
-				
-			}
-		});
-	}
-	
-	private void readData() {
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-
 
 				snapshot.setCreated(new Date());
 				snapshot.setName(text_name.getText().length() < 1 ? "-" : text_name.getText() );
@@ -352,6 +340,17 @@ public class Page1 extends WizardPage {
 				SessionSourceProvider.CURRENT_SNAPSHOT = snapshot;
 				btnCreate.setEnabled(false);
 				
+				progressBar.setVisible(true);
+				progressBar.setState(SWT.NORMAL);
+				
+			}
+		});
+	}
+	
+	private void readData() {
+//		Display.getDefault().syncExec(new Runnable() {
+//			public void run() {
+
 				if ( current_connection.getConnectionType() == ConnectionType.MKS) {
 					
 					MksReader mksReader = new MksReader( current_connection, 
@@ -367,7 +366,7 @@ public class Page1 extends WizardPage {
 						SessionSourceProvider.SYNERGY_SID = new SynergyLogin().getSynergySessionId();
 					}
 					
-					System.out.println("Its a sgy session " + SessionSourceProvider.SYNERGY_SID);
+					log.info("Its a sgy session " + SessionSourceProvider.SYNERGY_SID +" #1");
 					
 					SynergyReader synergyReader = new SynergyReader (SessionSourceProvider.SYNERGY_SID,
 							current_connection, SessionSourceProvider.CURRENT_SNAPSHOT );
@@ -376,8 +375,8 @@ public class Page1 extends WizardPage {
 					
 				}
 				
-			}
-		});
+//			}
+//		});
 	}
 	
 	private void stopProgressBar() {
@@ -387,7 +386,7 @@ public class Page1 extends WizardPage {
 				progressBar.setState(SWT.PAUSED);
 				progressBar.setVisible(false);
 				setPageComplete(true);
-				btnCreate.setEnabled(false);
+
 				GenericDao gDao = DaoFactory.eINSTANCE.createGenericDao();
 				Session session = gDao.getSession();
 				session.beginTransaction();
